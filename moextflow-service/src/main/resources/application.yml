@@ -1,0 +1,31 @@
+server:
+    port: 8085
+spring:
+  datasource:
+    username: root
+    password: moext.com@123456
+    url: jdbc:mysql://localhost:3306/workflow_service?useUnicode=true&allowMultiQueries=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 10
+    minIdle: 10
+    maxActive: 50
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+     
+app:
+  service:
+    shutdownHook: true
+    accessToken: 
+  snowflake:
+    datacenterId: 1
+    workerId: 1  
+
+flowable:
+  database-schema-update: false
+  async-executor-activate: false

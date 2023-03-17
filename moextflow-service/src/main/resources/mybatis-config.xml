@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>  
+        <property name="dbtype" value="MySQL"/><!-- 数据库类型：MySQL、Oracle -->  
+        <property name="defaultDateFormat" value="yyyy-MM-dd"/> 
+    </properties>  
+	<settings>
+		<setting name="logPrefix" value="dao."/>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<!-- 是否使用插入数据后自增主键的值，需要配合keyProperty使用 -->
+		<setting name="useGeneratedKeys" value="true" />
+	</settings>
+    <typeHandlers> 
+    	<typeHandler javaType="java.lang.String" jdbcType="OTHER" handler="com.moext.flowservice.repository.TextHandler"/>  
+	</typeHandlers> 
+	 <plugins>  
+        <plugin interceptor="com.moext.flowservice.repository.MybatisPageIntercetptor"></plugin>  
+    </plugins> 
+      
+</configuration>

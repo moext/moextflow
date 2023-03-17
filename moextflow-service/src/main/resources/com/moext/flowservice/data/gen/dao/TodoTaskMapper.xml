@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moext.flowservice.data.gen.dao.TodoTaskMapper">
+  <resultMap id="BaseResultMap" type="com.moext.flowservice.data.gen.model.TodoTask">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="apply_user_code" jdbcType="VARCHAR" property="applyUserCode" />
+    <result column="apply_user_name" jdbcType="VARCHAR" property="applyUserName" />
+    <result column="receive_user_code" jdbcType="VARCHAR" property="receiveUserCode" />
+    <result column="receive_user_name" jdbcType="VARCHAR" property="receiveUserName" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="process_instance_id" jdbcType="VARCHAR" property="processInstanceId" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="task_create_time" jdbcType="TIMESTAMP" property="taskCreateTime" />
+    <result column="task_receive_time" jdbcType="TIMESTAMP" property="taskReceiveTime" />
+    <result column="task_complete_time" jdbcType="TIMESTAMP" property="taskCompleteTime" />
+    <result column="todo_id" jdbcType="VARCHAR" property="todoId" />
+    <result column="form_instance_id" jdbcType="VARCHAR" property="formInstanceId" />
+    <result column="step_node_name" jdbcType="VARCHAR" property="stepNodeName" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="proc_def_key" jdbcType="VARCHAR" property="procDefKey" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, apply_user_code, apply_user_name, receive_user_code, receive_user_name, status, 
+    process_instance_id, task_name, task_id, task_create_time, task_receive_time, task_complete_time, 
+    todo_id, form_instance_id, step_node_name, is_del, proc_def_key, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.moext.flowservice.data.gen.model.TodoTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_todo_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_todo_task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_todo_task
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.moext.flowservice.data.gen.model.TodoTaskExample">
+    delete from t_todo_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.moext.flowservice.data.gen.model.TodoTask">
+    insert into t_todo_task (id, apply_user_code, apply_user_name, 
+      receive_user_code, receive_user_name, status, 
+      process_instance_id, task_name, task_id, 
+      task_create_time, task_receive_time, task_complete_time, 
+      todo_id, form_instance_id, step_node_name, 
+      is_del, proc_def_key, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{applyUserCode,jdbcType=VARCHAR}, #{applyUserName,jdbcType=VARCHAR}, 
+      #{receiveUserCode,jdbcType=VARCHAR}, #{receiveUserName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{processInstanceId,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
+      #{taskCreateTime,jdbcType=TIMESTAMP}, #{taskReceiveTime,jdbcType=TIMESTAMP}, #{taskCompleteTime,jdbcType=TIMESTAMP}, 
+      #{todoId,jdbcType=VARCHAR}, #{formInstanceId,jdbcType=VARCHAR}, #{stepNodeName,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=BIT}, #{procDefKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.moext.flowservice.data.gen.model.TodoTask">
+    insert into t_todo_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="applyUserCode != null">
+        apply_user_code,
+      </if>
+      <if test="applyUserName != null">
+        apply_user_name,
+      </if>
+      <if test="receiveUserCode != null">
+        receive_user_code,
+      </if>
+      <if test="receiveUserName != null">
+        receive_user_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="processInstanceId != null">
+        process_instance_id,
+      </if>
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="taskCreateTime != null">
+        task_create_time,
+      </if>
+      <if test="taskReceiveTime != null">
+        task_receive_time,
+      </if>
+      <if test="taskCompleteTime != null">
+        task_complete_time,
+      </if>
+      <if test="todoId != null">
+        todo_id,
+      </if>
+      <if test="formInstanceId != null">
+        form_instance_id,
+      </if>
+      <if test="stepNodeName != null">
+        step_node_name,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="procDefKey != null">
+        proc_def_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applyUserCode != null">
+        #{applyUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserName != null">
+        #{applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserCode != null">
+        #{receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserName != null">
+        #{receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstanceId != null">
+        #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCreateTime != null">
+        #{taskCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskReceiveTime != null">
+        #{taskReceiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskCompleteTime != null">
+        #{taskCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="todoId != null">
+        #{todoId,jdbcType=VARCHAR},
+      </if>
+      <if test="formInstanceId != null">
+        #{formInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepNodeName != null">
+        #{stepNodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="procDefKey != null">
+        #{procDefKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.moext.flowservice.data.gen.model.TodoTaskExample" resultType="java.lang.Long">
+    select count(*) from t_todo_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_todo_task
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.applyUserCode != null">
+        apply_user_code = #{record.applyUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyUserName != null">
+        apply_user_name = #{record.applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveUserCode != null">
+        receive_user_code = #{record.receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveUserName != null">
+        receive_user_name = #{record.receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processInstanceId != null">
+        process_instance_id = #{record.processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskName != null">
+        task_name = #{record.taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskCreateTime != null">
+        task_create_time = #{record.taskCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskReceiveTime != null">
+        task_receive_time = #{record.taskReceiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskCompleteTime != null">
+        task_complete_time = #{record.taskCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.todoId != null">
+        todo_id = #{record.todoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formInstanceId != null">
+        form_instance_id = #{record.formInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stepNodeName != null">
+        step_node_name = #{record.stepNodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.procDefKey != null">
+        proc_def_key = #{record.procDefKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_todo_task
+    set id = #{record.id,jdbcType=BIGINT},
+      apply_user_code = #{record.applyUserCode,jdbcType=VARCHAR},
+      apply_user_name = #{record.applyUserName,jdbcType=VARCHAR},
+      receive_user_code = #{record.receiveUserCode,jdbcType=VARCHAR},
+      receive_user_name = #{record.receiveUserName,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      process_instance_id = #{record.processInstanceId,jdbcType=VARCHAR},
+      task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_id = #{record.taskId,jdbcType=VARCHAR},
+      task_create_time = #{record.taskCreateTime,jdbcType=TIMESTAMP},
+      task_receive_time = #{record.taskReceiveTime,jdbcType=TIMESTAMP},
+      task_complete_time = #{record.taskCompleteTime,jdbcType=TIMESTAMP},
+      todo_id = #{record.todoId,jdbcType=VARCHAR},
+      form_instance_id = #{record.formInstanceId,jdbcType=VARCHAR},
+      step_node_name = #{record.stepNodeName,jdbcType=VARCHAR},
+      is_del = #{record.isDel,jdbcType=BIT},
+      proc_def_key = #{record.procDefKey,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.moext.flowservice.data.gen.model.TodoTask">
+    update t_todo_task
+    <set>
+      <if test="applyUserCode != null">
+        apply_user_code = #{applyUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserName != null">
+        apply_user_name = #{applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserCode != null">
+        receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserName != null">
+        receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstanceId != null">
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCreateTime != null">
+        task_create_time = #{taskCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskReceiveTime != null">
+        task_receive_time = #{taskReceiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskCompleteTime != null">
+        task_complete_time = #{taskCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="todoId != null">
+        todo_id = #{todoId,jdbcType=VARCHAR},
+      </if>
+      <if test="formInstanceId != null">
+        form_instance_id = #{formInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepNodeName != null">
+        step_node_name = #{stepNodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="procDefKey != null">
+        proc_def_key = #{procDefKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.moext.flowservice.data.gen.model.TodoTask">
+    update t_todo_task
+    set apply_user_code = #{applyUserCode,jdbcType=VARCHAR},
+      apply_user_name = #{applyUserName,jdbcType=VARCHAR},
+      receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      task_name = #{taskName,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      task_create_time = #{taskCreateTime,jdbcType=TIMESTAMP},
+      task_receive_time = #{taskReceiveTime,jdbcType=TIMESTAMP},
+      task_complete_time = #{taskCompleteTime,jdbcType=TIMESTAMP},
+      todo_id = #{todoId,jdbcType=VARCHAR},
+      form_instance_id = #{formInstanceId,jdbcType=VARCHAR},
+      step_node_name = #{stepNodeName,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=BIT},
+      proc_def_key = #{procDefKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.moext.flowservice.data.gen.model.TodoTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_todo_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

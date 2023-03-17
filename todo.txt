@@ -1,0 +1,2 @@
+MoextFlow-service为工作流核心服务模块
+MoextFlow-admin为工作流管理模块，待实现

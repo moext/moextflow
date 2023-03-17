@@ -1,0 +1,194 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion> 
+	<groupId>com.moext.moextflow</groupId>
+	<artifactId>moextflow-service</artifactId>
+	<version>1.0.0</version>
+	<name>moextflowService</name>
+	<properties>	
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        
+	    <junit.platform.version>1.0.2</junit.platform.version>
+	    
+        <spring.boot.version>2.7.7</spring.boot.version>
+        <spring.boot.maven.plugin.version>2.7.7</spring.boot.maven.plugin.version>
+        <spring.version>5.3.24</spring.version>
+        
+        <mybatis.version>3.5.11</mybatis.version>
+        <mybatis.spring.version>2.0.7</mybatis.spring.version>
+        <logback.version>1.2.11</logback.version>
+        
+        <hibernate.validator.version>6.2.5.Final</hibernate.validator.version>
+        <hibernate.version>6.1.3.Final</hibernate.version>
+        
+        <mybatis.generator.version>1.4.0</mybatis.generator.version>
+        
+        <commons.lang3.version>3.12.0</commons.lang3.version>
+        <commons.logging.version>1.2</commons.logging.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
+        
+        <druid.version>1.2.15</druid.version>
+        <mysql.connector.version>8.0.31</mysql.connector.version>
+        <fastjson.version>2.0.22</fastjson.version>
+        <tomcat-embed.version>9.0.70</tomcat-embed.version>
+        
+        <org.flowable.version>6.7.2</org.flowable.version>
+	</properties>
+
+    <packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>${tomcat-embed.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter</artifactId>
+            <version>${org.flowable.version}</version>
+        </dependency>
+        <dependency>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-starter-data-redis</artifactId>
+			  <version>${spring.boot.version}</version>
+		</dependency>
+		<dependency>
+		  	<groupId>commons-collections</groupId>
+		  	<artifactId>commons-collections</artifactId>
+		  	<version>${commons.collections.version}</version>
+		</dependency>
+        <!-- 测试用 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring.boot.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- mybatis代码生成 -->
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>${mybatis.generator.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- spring微服务 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+		<!-- spring切面 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency> 
+		<!-- mybatis类库 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<!-- mybatis和spring整合 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis.spring.version}</version>
+		</dependency>
+		<!-- 数据库驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
+		</dependency>
+		<!-- json库 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+		<!-- common -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>${commons.lang3.version}</version>
+		</dependency>
+        <dependency>  
+           <groupId>ch.qos.logback</groupId>  
+           <artifactId>logback-classic</artifactId>  
+           <version>${logback.version}</version>  
+        </dependency> 
+		 <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+          <version>${hibernate.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons.logging.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>druid</artifactId>
+		    <version>${druid.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.maven.plugin.version}</version>
+					<configuration>
+						<mainClass>com.moext.flowservice.FlowServiceApp</mainClass>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+	            <plugin>
+	                <artifactId>maven-surefire-plugin</artifactId>
+	                <version>2.19.1</version>
+	                <configuration>
+	                    <includes>
+	                        <include>**/Test*.java</include>
+	                        <include>**/*Test.java</include>
+	                        <include>**/*Tests.java</include>
+	                        <include>**/*TestCase.java</include>
+	                    </includes>
+	                </configuration>
+	                <dependencies>
+	                    <dependency>
+	                        <groupId>org.junit.platform</groupId>
+	                        <artifactId>junit-platform-surefire-provider</artifactId>
+	                        <version>${junit.platform.version}</version>
+	                    </dependency>
+	                </dependencies>
+	            </plugin>
+			</plugins>
+		</build>  
+	<description>新岭工作流-服务</description>
+</project>
