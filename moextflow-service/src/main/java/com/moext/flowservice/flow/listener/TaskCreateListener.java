@@ -117,7 +117,7 @@ public class TaskCreateListener implements FlowableEventListener {
 	
 	@Override
 	public boolean isFailOnException() {
-		return false;
+		return true;
 	}
 
 	@Override

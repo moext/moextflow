@@ -63,7 +63,7 @@ public class TaskDeleteListener implements FlowableEventListener {
 
 	@Override
 	public boolean isFailOnException() {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -120,7 +120,7 @@ public class TaskAssignedListener implements FlowableEventListener {
 
 	@Override
 	public boolean isFailOnException() {
-		return false;
+		return true;
 	}
 
 	@Override

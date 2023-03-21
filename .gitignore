@@ -1,1 +1,4 @@
+*.log
 .project
+.settings
+moextflow-service/.classpath

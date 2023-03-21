@@ -2,7 +2,9 @@ package com.moext.flowservice.component;
 
 import java.util.List;
 
+import com.moext.flowservice.dto.req.ActProcessPageReq;
 import com.moext.flowservice.flow.model.StartProcessModel;
+import com.moext.flowservice.flow.model.TaskManageModel;
 import com.moext.flowservice.flow.model.TaskNodeModel;
 
 /**
@@ -31,4 +33,27 @@ public interface ProcessComponent {
 	 * @return
 	 */
 	public List<TaskNodeModel> listAllNode(String procInsId);
+	
+	/**
+	 * 分页查询历史流程列表
+	 * @param actProcessPageReq
+	 * @return
+	 */
+	public List<TaskManageModel> listHistoryProcess(ActProcessPageReq actProcessPageReq);
+	
+	/**
+	 * 统计符合条件的历史流程数量
+	 * @param actProcessPageReq
+	 * @return
+	 */
+	public long countHistoryProcess(ActProcessPageReq actProcessPageReq);
+	
+	/**
+	 * 从当前节点跳转到指定节点
+	 * @param procInsId
+	 * @param nodeId
+	 * @param toNodeId
+	 */
+	public void jumpToNode(String procInsId, String nodeId, String toNodeId);
+	
 }

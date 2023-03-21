@@ -4,11 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.flowable.engine.IdentityService;
 import org.flowable.idm.api.Group;
 import org.flowable.idm.api.User;
-import org.flowable.idm.engine.impl.persistence.entity.GroupEntityImpl;
-import org.flowable.idm.engine.impl.persistence.entity.UserEntityImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,9 +64,19 @@ public class FlowableIdentityComponent implements IdentityComponent {
 			item = identityService.newGroup(group.getId());
 		}
 		item.setId(group.getId());
-		item.setName(group.getName());
-		item.setType(group.getType());
-		identityService.saveGroup(item);
+		//判断字段是否有变动才执行更新操作，提高执行效率
+		boolean updateFlag = false;
+		if(!StringUtils.equals(item.getType(), group.getType())) {
+			item.setType(group.getType());
+			updateFlag = true;
+		}
+		if(!StringUtils.equals(item.getName(), group.getName())) {
+			item.setName(group.getName());
+			updateFlag = true;
+		}
+		if(updateFlag == true) {
+			identityService.saveGroup(item);
+		}
 		return true;
 	}
 
@@ -84,13 +93,29 @@ public class FlowableIdentityComponent implements IdentityComponent {
 			item = identityService.newUser(user.getUserCode());
 		}
 		item.setId(user.getUserCode());
-		item.setDisplayName(user.getDisplayName());
-		item.setEmail(user.getEmail());
-		item.setFirstName(user.getDisplayName());
-		item.setId(user.getUserCode());
-		item.setLastName(user.getDisplayName());
-		identityService.saveUser(item);
-		return true;
+		//判断字段是否有变动才执行更新操作，提高执行效率
+		boolean updateFlag = false;
+		if(!StringUtils.equals(item.getDisplayName(), user.getDisplayName())) {
+			item.setDisplayName(user.getDisplayName());
+			updateFlag = true;
+		}
+		if(!StringUtils.equals(item.getEmail(), user.getEmail())) {
+			item.setEmail(user.getEmail());
+			updateFlag = true;
+		}
+		if(!StringUtils.equals(item.getFirstName(), user.getDisplayName())) {
+			item.setFirstName(user.getDisplayName());
+			updateFlag = true;
+		}
+		if(!StringUtils.equals(item.getLastName(), user.getDisplayName())) {
+			item.setLastName(user.getDisplayName());
+			updateFlag = true;
+		}
+		if(updateFlag == true) {
+			identityService.saveUser(item);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

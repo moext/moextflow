@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.moext.moextflow</groupId>
   <artifactId>moextflow</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
   <name>moextflowParent</name>
   <description>MoextFlow是基于SpringBoot的国产开源工作流系统，易读易懂、界面简洁美观。 核心技术采用Spring、MyBatis、Flowable没有任何其它重度依赖。直接运行即可用。</description>

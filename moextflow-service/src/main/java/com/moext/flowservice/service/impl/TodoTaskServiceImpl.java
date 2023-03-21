@@ -179,6 +179,7 @@ public class TodoTaskServiceImpl implements TodoTaskService {
 		.andProcDefKeyEqualTo(todoTask.getProcDefKey());
 		List<TodoTask> oldTodoTaskList = todoTaskMapper.selectByExample(exampleTaskOld);
 		if(!CollectionUtils.isEmpty(oldTodoTaskList)) {//任务有原处理人
+			logger.info("oldTodoTaskList size = {}", oldTodoTaskList.size());
 			for(TodoTask oldTodoTask : oldTodoTaskList) {
 				oldTodoTask.setIsDel(true);
 				oldTodoTask.setUpdateTime(now);
@@ -202,12 +203,12 @@ public class TodoTaskServiceImpl implements TodoTaskService {
 		exampleTaskDoing.createCriteria().andProcessInstanceIdEqualTo(todoTask.getProcessInstanceId())
 		.andStatusEqualTo(TodoStatusConstants.TODO_STATUS_DOING)
 		.andProcDefKeyEqualTo(todoTask.getProcDefKey())
-		.andReceiveUserCodeEqualTo(todoTask.getReceiveUserCode());
+		.andReceiveUserCodeEqualTo(todoTask.getReceiveUserCode()).andIsDelEqualTo(false);
 		List<TodoTask> doingTaskList = todoTaskMapper.selectByExample(exampleTaskDoing);
 		if(!CollectionUtils.isEmpty(doingTaskList)) {
 			logger.info("doingTaskList size = {}", doingTaskList.size());
 			for(TodoTask item : doingTaskList) {
-				item.setIsDel(false);
+				item.setIsDel(true);
 				item.setUpdateTime(now);
 				todoTaskMapper.updateByPrimaryKey(item);
 			}

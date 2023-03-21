@@ -61,7 +61,7 @@ public class TaskCompletedListener implements FlowableEventListener {
 
 	@Override
 	public boolean isFailOnException() {
-		return false;
+		return true;
 	}
 
 	@Override
