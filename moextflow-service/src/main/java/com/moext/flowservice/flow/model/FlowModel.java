@@ -12,6 +12,7 @@ public class FlowModel implements Serializable {
 
 	private static final long serialVersionUID = -1212874095387162941L;
 
+	private String id;
 	protected String name;
 	protected String key;
 	protected String category;
@@ -24,6 +25,14 @@ public class FlowModel implements Serializable {
 	protected String editorSourceExtraValueId;
 	protected String tenantId;
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}
