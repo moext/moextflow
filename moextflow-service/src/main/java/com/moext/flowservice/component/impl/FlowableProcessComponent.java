@@ -1,19 +1,31 @@
 package com.moext.flowservice.component.impl;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.flowable.bpmn.converter.BpmnXMLConverter;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.editor.constants.ModelDataJsonConstants;
+import org.flowable.editor.language.json.converter.BpmnJsonConverter;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.IdentityService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.User;
@@ -23,6 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.moext.flowservice.component.ProcessComponent;
 import com.moext.flowservice.dto.req.ActProcessPageReq;
 import com.moext.flowservice.flow.constants.FlowVariableConstants;
@@ -242,5 +256,41 @@ public class FlowableProcessComponent implements ProcessComponent{
          .processInstanceId(procInsId)
          .moveActivityIdTo(nodeId, toNodeId)
          .changeState();
+	}
+	
+	@Override
+	public void convertToModel(String procDefId) throws UnsupportedEncodingException, XMLStreamException {
+		
+		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(procDefId).singleResult();
+		InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),
+		processDefinition.getResourceName());
+		XMLInputFactory xif = XMLInputFactory.newInstance();
+		InputStreamReader in = new InputStreamReader(bpmnStream, "UTF-8");
+		XMLStreamReader xtr = xif.createXMLStreamReader(in);
+		BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+	
+		BpmnJsonConverter converter = new BpmnJsonConverter();
+		ObjectNode modelNode = converter.convertToJson(bpmnModel);
+		Model modelData = repositoryService.createModelQuery().modelKey(processDefinition.getKey()).singleResult();
+		if(modelData == null) {
+			modelData = repositoryService.newModel();
+			modelData.setVersion(1);
+		}else {
+			modelData.setVersion(modelData.getVersion() + 1);
+		}
+		modelData.setKey(processDefinition.getKey());
+		modelData.setName(processDefinition.getResourceName());
+		modelData.setCategory(processDefinition.getCategory());//.getDeploymentId());
+		modelData.setDeploymentId(processDefinition.getDeploymentId());
+	
+		ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
+		modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, processDefinition.getName());
+		modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, modelData.getVersion());
+		modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, processDefinition.getDescription());
+		modelData.setMetaInfo(modelObjectNode.toString());
+	
+		repositoryService.saveModel(modelData);
+	
+		repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("UTF-8"));
 	}
 }

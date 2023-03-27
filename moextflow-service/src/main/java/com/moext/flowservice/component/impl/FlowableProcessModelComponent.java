@@ -122,7 +122,7 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 		modelData.setMetaInfo(modelObjectNode.toString());
 
 		repositoryService.saveModel(modelData);
-		repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
+		repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("UTF-8"));
 
 	}
 
@@ -184,7 +184,7 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 		modelData.setMetaInfo(data.getMetaInfo());
 		// 模型数据保存
 		repositoryService.saveModel(modelData);
-		repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
+		repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("UTF-8"));
 	}
 
 	@Override

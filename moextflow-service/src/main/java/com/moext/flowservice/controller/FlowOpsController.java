@@ -19,6 +19,7 @@ import com.moext.flowservice.common.PageResponse;
 import com.moext.flowservice.common.RspUtils;
 import com.moext.flowservice.dto.req.ActProcessPageReq;
 import com.moext.flowservice.dto.req.ChangeTaskAssigneeReq;
+import com.moext.flowservice.dto.req.ConvertToModelReq;
 import com.moext.flowservice.dto.req.JumpNodeReq;
 import com.moext.flowservice.flow.model.TaskManageModel;
 import com.moext.flowservice.flow.model.TaskNodeModel;
@@ -97,4 +98,24 @@ public class FlowOpsController {
 		
 		return RspUtils.success(flowOpsService.changeTaskAssignee(changeTaskAssigneeReq));
 	}
+	
+    /**
+     * 将部署的流程转换为模型
+     * @param procDefId
+     * @param redirectAttributes
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws XMLStreamException
+     */
+    @RequestMapping(value = "convertToModel", method = RequestMethod.POST)
+	@ResponseBody
+    public BaseResponse<Boolean> convertToModel(HttpServletRequest request, @RequestBody ConvertToModelReq convertToModelReq) throws Exception {
+    	String validateMsg = RspUtils.validate(convertToModelReq, ConvertToModelReq.class);
+		if(StringUtils.isNotBlank(validateMsg)) {
+			return RspUtils.error(validateMsg);
+		}
+		
+    	flowOpsService.toModel(convertToModelReq.getProcDefId());
+		return RspUtils.success(true);
+    }
 }

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion> 
 	<groupId>com.moext.moextflow</groupId>
 	<artifactId>moextflow-service</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<name>moextflowService</name>
 	<properties>	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

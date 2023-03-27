@@ -77,7 +77,7 @@ public interface FlowModelService {
 	 * @param id
 	 * @param category
 	 */
-	public void updateCategory(String id, String category);
+	public boolean updateCategory(String id, String category);
 
 	/**
 	 * 删除模型

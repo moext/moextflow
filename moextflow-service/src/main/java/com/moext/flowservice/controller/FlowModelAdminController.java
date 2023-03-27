@@ -125,8 +125,7 @@ public class FlowModelAdminController {
 			return RspUtils.error(validateMsg);
 		}
 		
-		flowModelService.updateCategory(updateModelReq.getId(), updateModelReq.getCategory());
-		return RspUtils.success(true);
+		return RspUtils.success(flowModelService.updateCategory(updateModelReq.getId(), updateModelReq.getCategory()));
 	}
 
 	/**
@@ -152,7 +151,7 @@ public class FlowModelAdminController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/deployUpdated", method = RequestMethod.GET)
+	@RequestMapping(value = "/deployUpdated", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse<Boolean> deployUpdated(HttpServletRequest request) {
 		return RspUtils.success(flowModelService.deployUpdated());

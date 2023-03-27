@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.flowable.engine.repository.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,8 +66,18 @@ public class FlowModelServiceImpl implements FlowModelService {
 
 	@Override
 	@Transactional
-	public void updateCategory(String id, String category) {
-		processModelComponent.updateCategory(id, category);
+	public boolean updateCategory(String id, String category) {
+		Model model = processModelComponent.getModel(id);
+		if(model != null) {
+			if(!StringUtils.equals(category, model.getCategory())) {
+				processModelComponent.updateCategory(id, category);
+			}
+			return true;
+		}else {
+			return false;
+		}
+		
+		
 	}
 
 	@Override

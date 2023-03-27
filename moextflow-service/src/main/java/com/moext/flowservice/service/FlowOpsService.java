@@ -43,4 +43,11 @@ public interface FlowOpsService {
 	 */
 	public Boolean changeTaskAssignee(ChangeTaskAssigneeReq changeTaskAssigneeReq);
 	
+	/**
+	 * 运行中的流程定义转模型
+	 * @param procDefId
+	 * @throws Exception 
+	 */
+	public void toModel(String procDefId) throws Exception;
+	
 }

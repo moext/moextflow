@@ -58,4 +58,9 @@ public class FlowOpsServiceImpl implements FlowOpsService{
 		taskComponent.setAssignee(changeTaskAssigneeReq.getTaskId(), changeTaskAssigneeReq.getAssignee());
 		return true;
 	}
+
+	@Override
+	public void toModel(String procDefId) throws Exception {
+		processComponent.convertToModel(procDefId);
+	}
 }

@@ -1,6 +1,9 @@
 package com.moext.flowservice.component;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import javax.xml.stream.XMLStreamException;
 
 import com.moext.flowservice.dto.req.ActProcessPageReq;
 import com.moext.flowservice.flow.model.StartProcessModel;
@@ -55,5 +58,13 @@ public interface ProcessComponent {
 	 * @param toNodeId
 	 */
 	public void jumpToNode(String procInsId, String nodeId, String toNodeId);
+	
+	/**
+	 * 将部署的流程转换为模型
+	 * @param procDefId
+	 * @throws UnsupportedEncodingException
+	 * @throws XMLStreamException
+	 */
+	public void convertToModel(String procDefId) throws UnsupportedEncodingException, XMLStreamException;
 	
 }
