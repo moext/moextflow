@@ -34,7 +34,7 @@
         <fastjson.version>2.0.22</fastjson.version>
         <tomcat-embed.version>9.0.70</tomcat-embed.version>
         
-        <org.flowable.version>6.7.2</org.flowable.version>
+        <org.flowable.version>6.8.0</org.flowable.version>
 	</properties>
 
     <packaging>jar</packaging>

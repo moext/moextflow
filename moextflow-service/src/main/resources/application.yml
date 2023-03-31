@@ -29,5 +29,5 @@ app:
     workerId: 1  
 
 flowable:
-  database-schema-update: false
+  database-schema-update: true
   async-executor-activate: false
