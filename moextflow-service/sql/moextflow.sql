@@ -1599,3 +1599,54 @@ CREATE TABLE `t_task_comment` (
   KEY `idx_proc_inst_id` (`process_instance_id`,`task_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='任务审批评论表';
 
+CREATE TABLE `act_de_model`  (
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `name` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `model_key` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `description` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `model_comment` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `created` datetime(6) NULL DEFAULT NULL,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `last_updated` datetime(6) NULL DEFAULT NULL,
+  `last_updated_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `version` int(0) NULL DEFAULT NULL,
+  `model_editor_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL,
+  `thumbnail` longblob NULL,
+  `model_type` int(0) NULL DEFAULT NULL,
+  `tenant_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_proc_mod_created`(`created_by`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_bin;
+
+CREATE TABLE `act_de_model_history`  (
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `name` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `model_key` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `description` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `model_comment` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `created` datetime(6) NULL DEFAULT NULL,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `last_updated` datetime(6) NULL DEFAULT NULL,
+  `last_updated_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `removal_date` datetime(6) NULL DEFAULT NULL,
+  `version` int(0) NULL DEFAULT NULL,
+  `model_editor_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL,
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `model_type` int(0) NULL DEFAULT NULL,
+  `tenant_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_proc_mod_history_proc`(`model_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_bin;
+
+CREATE TABLE `act_de_model_relation`  (
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `parent_model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  `relation_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_relation_parent`(`parent_model_id`) USING BTREE,
+  INDEX `fk_relation_child`(`model_id`) USING BTREE,
+  CONSTRAINT `fk_relation_child` FOREIGN KEY (`model_id`) REFERENCES `act_de_model` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_relation_parent` FOREIGN KEY (`parent_model_id`) REFERENCES `act_de_model` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_bin;
+

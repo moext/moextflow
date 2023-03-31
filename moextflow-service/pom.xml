@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion> 
 	<groupId>com.moext.moextflow</groupId>
 	<artifactId>moextflow-service</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>moextflowService</name>
 	<properties>	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,6 +52,16 @@
         <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-json-converter</artifactId>
+            <version>${org.flowable.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-dmn-json-converter</artifactId>
+            <version>${org.flowable.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-cmmn-json-converter</artifactId>
             <version>${org.flowable.version}</version>
         </dependency>
         <dependency>
