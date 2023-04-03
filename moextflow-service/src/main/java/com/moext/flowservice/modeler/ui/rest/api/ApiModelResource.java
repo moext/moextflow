@@ -268,4 +268,15 @@ public class ApiModelResource {
         Model newModel = modelService.createModel(model, editorJson, currentUserId);
         return new ModelRepresentation(newModel);
     }
+    
+    
+    @GetMapping(value = "/test")
+    public ModelRepresentation test() {
+        ModelRepresentation model = new ModelRepresentation();
+        model.setName("测试0407");
+        model.setDescription("测试0407CCC");
+        model.setModelType(6);
+        Model newModel = modelService.createModel(model, "{}", currentUserId);
+        return new ModelRepresentation(newModel);
+    }
 }

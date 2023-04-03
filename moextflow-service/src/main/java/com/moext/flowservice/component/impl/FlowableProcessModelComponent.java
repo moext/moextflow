@@ -49,10 +49,11 @@ import com.moext.flowservice.flow.model.FlowModel;
 
 /**
  * 流程模型的Flowable实现
- * 
+ * Flowable 6.4.1版后不用act_re_model表来保存流程模型文件,改为用act_de_model表来保存，但对应的RepositoryService操作的仍然是act_re_model表
  * @author PengPeng
  *
  */
+//@Deprecated 
 @Component
 public class FlowableProcessModelComponent implements ProcessModelComponent {
 
@@ -60,7 +61,7 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 			
 	@Autowired
 	private RepositoryService repositoryService;
-
+	
 	@Override
 	public List<FlowModel> list(FlowModelPageRequest pageRequest) {
 		ModelQuery modelQuery = repositoryService.createModelQuery().latestVersion().orderByLastUpdateTime().desc();
