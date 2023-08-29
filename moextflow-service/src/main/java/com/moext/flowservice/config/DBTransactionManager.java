@@ -10,10 +10,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 @Configuration
 public class DBTransactionManager {
-	
-    @Autowired
-    private DataSource dataSource;
-	
+
+	@Autowired
+	private DataSource dataSource;
+
 	@Bean
 	public DataSourceTransactionManager transactionManager() {
 		DataSourceTransactionManager dstm = new DataSourceTransactionManager();

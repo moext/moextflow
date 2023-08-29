@@ -17,27 +17,28 @@ import com.moext.flowservice.common.WebConstant;
 /**
  * Token检查拦截器，通过HTTP头检查token的方式提供简单的安全检查
  * token配置在application.yml中，留空则表示不启用HTTP头token安全检查
+ * 
  * @author PengPeng
  *
  */
 public class TokenCheckInterceptor implements HandlerInterceptor {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(TokenCheckInterceptor.class);
-			
+
 	private String token;
-	
-	public TokenCheckInterceptor(String token){
+
+	public TokenCheckInterceptor(String token) {
 		this.token = token;
 	}
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//不配置Token，则无Token安全检查
-		if(StringUtils.isBlank(token)) {
+		// 不配置Token，则无Token安全检查
+		if (StringUtils.isBlank(token)) {
 			return true;
 		}
-		
+
 		String token = request.getHeader("ACCESS_TOKEN");
 		if (StringUtils.equals(token, this.token)) {
 			return true;
@@ -59,7 +60,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		if(ex != null) {
+		if (ex != null) {
 			logger.error(request.getRequestURI(), ex);
 		}
 	}

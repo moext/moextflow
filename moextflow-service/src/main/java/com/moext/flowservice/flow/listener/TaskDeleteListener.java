@@ -17,37 +17,39 @@ import com.moext.flowservice.util.SpringUtils;
 
 /**
  * 任务删除时监听器
+ * 
  * @author PengPeng
  */
 @Component
 public class TaskDeleteListener implements FlowableEventListener {
 
 	private static Logger logger = LoggerFactory.getLogger(TaskDeleteListener.class);
-	
+
 	public RuntimeService getRuntimeService() {
 		return SpringUtils.getBean(RuntimeService.class);
 	}
-	
+
 	private TodoTaskService getTodoTaskService() {
 		return SpringUtils.getBean(TodoTaskService.class);
 	}
-	
+
 	@Override
 	public void onEvent(FlowableEvent event) {
-		FlowableEntityEvent entityEvent = (FlowableEntityEvent)event;
+		FlowableEntityEvent entityEvent = (FlowableEntityEvent) event;
 		Object entity = entityEvent.getEntity();
-		if(entity instanceof TaskEntity) {//用户任务类型的实体
-			TaskEntity taskEntity = (TaskEntity)entityEvent.getEntity();
+		if (entity instanceof TaskEntity) {// 用户任务类型的实体
+			TaskEntity taskEntity = (TaskEntity) entityEvent.getEntity();
 			String procInsId = taskEntity.getProcessInstanceId();
 			logger.info("TaskDeleteListener procId={} taskId={} onEvent...", procInsId, taskEntity.getId());
-			
-			ProcessInstance processInstance = getRuntimeService().createProcessInstanceQuery().includeProcessVariables().processInstanceId(procInsId).singleResult();
-			if(processInstance == null) {
+
+			ProcessInstance processInstance = getRuntimeService().createProcessInstanceQuery().includeProcessVariables()
+					.processInstanceId(procInsId).singleResult();
+			if (processInstance == null) {
 				return;
 			}
-			
-			if(StringUtils.isNotBlank(taskEntity.getAssignee())){//任务处理人为单人，待办改已办
-				if(!taskEntity.getAssignee().startsWith("{")) {
+
+			if (StringUtils.isNotBlank(taskEntity.getAssignee())) {// 任务处理人为单人，待办改已办
+				if (!taskEntity.getAssignee().startsWith("{")) {
 					TodoTask todoTask = new TodoTask();
 					todoTask.setProcessInstanceId(procInsId);
 					todoTask.setTaskId(taskEntity.getId());
@@ -55,7 +57,7 @@ public class TaskDeleteListener implements FlowableEventListener {
 					todoTask.setReceiveUserCode(taskEntity.getAssignee());
 					getTodoTaskService().updateWhenTaskComplete(todoTask);
 				}
-			}else {
+			} else {
 				logger.warn("no assignee record found taskId:{}", taskEntity.getId());
 			}
 		}

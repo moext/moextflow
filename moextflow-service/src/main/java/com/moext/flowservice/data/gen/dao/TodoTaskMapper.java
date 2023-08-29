@@ -8,27 +8,27 @@ import com.moext.flowservice.data.gen.model.TodoTask;
 import com.moext.flowservice.data.gen.model.TodoTaskExample;
 
 public interface TodoTaskMapper {
-    long countByExample(TodoTaskExample example);
+	long countByExample(TodoTaskExample example);
 
-    int deleteByExample(TodoTaskExample example);
+	int deleteByExample(TodoTaskExample example);
 
-    int deleteByPrimaryKey(Long id);
+	int deleteByPrimaryKey(Long id);
 
-    int insert(TodoTask record);
+	int insert(TodoTask record);
 
-    int insertSelective(TodoTask record);
+	int insertSelective(TodoTask record);
 
-    List<TodoTask> selectByExampleWithRowbounds(TodoTaskExample example, RowBounds rowBounds);
+	List<TodoTask> selectByExampleWithRowbounds(TodoTaskExample example, RowBounds rowBounds);
 
-    List<TodoTask> selectByExample(TodoTaskExample example);
+	List<TodoTask> selectByExample(TodoTaskExample example);
 
-    TodoTask selectByPrimaryKey(Long id);
+	TodoTask selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("record") TodoTask record, @Param("example") TodoTaskExample example);
+	int updateByExampleSelective(@Param("record") TodoTask record, @Param("example") TodoTaskExample example);
 
-    int updateByExample(@Param("record") TodoTask record, @Param("example") TodoTaskExample example);
+	int updateByExample(@Param("record") TodoTask record, @Param("example") TodoTaskExample example);
 
-    int updateByPrimaryKeySelective(TodoTask record);
+	int updateByPrimaryKeySelective(TodoTask record);
 
-    int updateByPrimaryKey(TodoTask record);
+	int updateByPrimaryKey(TodoTask record);
 }

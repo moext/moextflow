@@ -18,14 +18,14 @@ import com.moext.flowservice.modeler.ui.modeler.domain.ModelHistory;
 
 public interface ModelHistoryRepository {
 
-    void save(ModelHistory modelHistory);
+	void save(ModelHistory modelHistory);
 
-    void delete(ModelHistory modelHistory);
+	void delete(ModelHistory modelHistory);
 
-    ModelHistory get(String id);
+	ModelHistory get(String id);
 
-    List<ModelHistory> findByModelTypAndCreatedBy(String createdBy, Integer modelType);
+	List<ModelHistory> findByModelTypAndCreatedBy(String createdBy, Integer modelType);
 
-    List<ModelHistory> findByModelId(String modelId);
+	List<ModelHistory> findByModelId(String modelId);
 
 }

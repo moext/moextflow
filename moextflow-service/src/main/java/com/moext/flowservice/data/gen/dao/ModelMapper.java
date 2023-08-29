@@ -7,6 +7,6 @@ import com.moext.flowservice.modeler.ui.modeler.domain.Model;
 public interface ModelMapper {
 
 	public Model selectModel(@Param("id") String id);
-	
+
 	public int insertModel(Model model);
 }

@@ -16,47 +16,49 @@ import com.moext.flowservice.util.SpringUtils;
 
 /**
  * 任务回退时监听器
+ * 
  * @author PengPeng
  */
 public class TaskBackListener implements FlowableEventListener {
 
 	private static Logger logger = LoggerFactory.getLogger(TaskBackListener.class);
-	
+
 	public RuntimeService getRuntimeService() {
 		return SpringUtils.getBean(RuntimeService.class);
 	}
-	
+
 	private TaskBackCallback getTaskBackCallback() {
 		return SpringUtils.getBean(TaskBackCallback.class);
 	}
-	
+
 	@Override
 	public void onEvent(FlowableEvent event) {
-		FlowableEntityEvent entityEvent = (FlowableEntityEvent)event;
+		FlowableEntityEvent entityEvent = (FlowableEntityEvent) event;
 		Object entity = entityEvent.getEntity();
-		if(entity instanceof TaskEntity) {//用户任务类型的实体
-			TaskEntity taskEntity = (TaskEntity)entityEvent.getEntity();
+		if (entity instanceof TaskEntity) {// 用户任务类型的实体
+			TaskEntity taskEntity = (TaskEntity) entityEvent.getEntity();
 			String procInsId = taskEntity.getProcessInstanceId();
 			logger.info("TaskBackListener procId={} taskId={} onEvent...", procInsId, taskEntity.getId());
-			
-			ProcessInstance processInstance = getRuntimeService().createProcessInstanceQuery().includeProcessVariables().processInstanceId(procInsId).singleResult();
-			if(processInstance == null) {
+
+			ProcessInstance processInstance = getRuntimeService().createProcessInstanceQuery().includeProcessVariables()
+					.processInstanceId(procInsId).singleResult();
+			if (processInstance == null) {
 				return;
 			}
-			
-			//当任务回到发起任务时，调用回调方法
-			if(ProcessDefConstants.TASK_DEF_KEY_APPLYTASK.equalsIgnoreCase(taskEntity.getTaskDefinitionKey())){//回到第一个任务节点
+
+			// 当任务回到发起任务时，调用回调方法
+			if (ProcessDefConstants.TASK_DEF_KEY_APPLYTASK.equalsIgnoreCase(taskEntity.getTaskDefinitionKey())) {// 回到第一个任务节点
 				CallbackRequest callbackRequest = new CallbackRequest();
 				callbackRequest.setActivitiEntityEvent(entityEvent);
 				callbackRequest.setFormInstanceId(processInstance.getBusinessKey());
 				callbackRequest.setProcDefKey(processInstance.getProcessDefinitionKey());
 				callbackRequest.setProcessInstanceId(procInsId);
-				//调用回调方法
+				// 调用回调方法
 				getTaskBackCallback().handle(callbackRequest);
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean isFailOnException() {
 		return true;

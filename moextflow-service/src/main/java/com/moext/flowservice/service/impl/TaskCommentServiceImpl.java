@@ -15,11 +15,11 @@ public class TaskCommentServiceImpl implements TaskCommentService {
 
 	@Autowired
 	private TaskCommentMapper taskCommentMapper;
-	
+
 	@Override
-    public List<TaskComment> listComments(String processInstId){
-    	TaskCommentExample example = new TaskCommentExample();
-    	example.createCriteria().andProcessInstanceIdEqualTo(processInstId).andIsDelEqualTo(false);
-    	return taskCommentMapper.selectByExampleWithBLOBs(example);
-    }
+	public List<TaskComment> listComments(String processInstId) {
+		TaskCommentExample example = new TaskCommentExample();
+		example.createCriteria().andProcessInstanceIdEqualTo(processInstId).andIsDelEqualTo(false);
+		return taskCommentMapper.selectByExampleWithBLOBs(example);
+	}
 }

@@ -28,54 +28,56 @@ import com.moext.flowservice.modeler.ui.modeler.service.ConverterContext;
 
 public interface ModelService {
 
-    Model getModel(String modelId);
+	Model getModel(String modelId);
 
-    ModelRepresentation getModelRepresentation(String modelId);
+	ModelRepresentation getModelRepresentation(String modelId);
 
-    List<AbstractModel> getModelsByModelType(Integer modelType);
+	List<AbstractModel> getModelsByModelType(Integer modelType);
 
-    ModelKeyRepresentation validateModelKey(Model model, Integer modelType, String key);
+	ModelKeyRepresentation validateModelKey(Model model, Integer modelType, String key);
 
-    ModelHistory getModelHistory(String modelId, String modelHistoryId);
+	ModelHistory getModelHistory(String modelId, String modelHistoryId);
 
-    Long getModelCountForUser(String userId, int modelTypeApp);
+	Long getModelCountForUser(String userId, int modelTypeApp);
 
-    BpmnModel getBpmnModel(AbstractModel model, ConverterContext converterContext);
+	BpmnModel getBpmnModel(AbstractModel model, ConverterContext converterContext);
 
-    byte[] getBpmnXML(BpmnModel bpmnMode);
+	byte[] getBpmnXML(BpmnModel bpmnMode);
 
-    byte[] getBpmnXML(AbstractModel model);
+	byte[] getBpmnXML(AbstractModel model);
 
-    BpmnModel getBpmnModel(AbstractModel model);
-    
-    CmmnModel getCmmnModel(AbstractModel model);
+	BpmnModel getBpmnModel(AbstractModel model);
 
-    byte[] getCmmnXML(CmmnModel cmmnModel);
+	CmmnModel getCmmnModel(AbstractModel model);
 
-    byte[] getCmmnXML(AbstractModel model);
+	byte[] getCmmnXML(CmmnModel cmmnModel);
 
-    CmmnModel getCmmnModel(AbstractModel model, ConverterContext converterContext);
-    
-    String createModelJson(ModelRepresentation model);
+	byte[] getCmmnXML(AbstractModel model);
 
-    Model createModel(ModelRepresentation model, String editorJson, String createdBy);
+	CmmnModel getCmmnModel(AbstractModel model, ConverterContext converterContext);
 
-    Model createModel(Model newModel, String createdBy);
+	String createModelJson(ModelRepresentation model);
 
-    Model saveModel(Model modelObject);
+	Model createModel(ModelRepresentation model, String editorJson, String createdBy);
 
-    Model saveModel(Model modelObject, String editorJson, byte[] imageBytes, boolean newVersion, String newVersionComment, String updatedBy);
+	Model createModel(Model newModel, String createdBy);
 
-    Model saveModel(String modelId, String name, String key, String description, String editorJson,
-            boolean newVersion, String newVersionComment, String updatedBy);
+	Model saveModel(Model modelObject);
 
-    ModelRepresentation importNewVersion(String modelId, String fileName, InputStream modelStream);
+	Model saveModel(Model modelObject, String editorJson, byte[] imageBytes, boolean newVersion,
+			String newVersionComment, String updatedBy);
 
-    Model createNewModelVersion(Model modelObject, String comment, String updatedBy);
+	Model saveModel(String modelId, String name, String key, String description, String editorJson, boolean newVersion,
+			String newVersionComment, String updatedBy);
 
-    ModelHistory createNewModelVersionAndReturnModelHistory(Model modelObject, String comment, String updatedBy);
+	ModelRepresentation importNewVersion(String modelId, String fileName, InputStream modelStream);
 
-    void deleteModel(String modelId);
+	Model createNewModelVersion(Model modelObject, String comment, String updatedBy);
 
-    ReviveModelResultRepresentation reviveProcessModelHistory(ModelHistory modelHistory, String userId, String newVersionComment);
+	ModelHistory createNewModelVersionAndReturnModelHistory(Model modelObject, String comment, String updatedBy);
+
+	void deleteModel(String modelId);
+
+	ReviveModelResultRepresentation reviveProcessModelHistory(ModelHistory modelHistory, String userId,
+			String newVersionComment);
 }

@@ -12,29 +12,30 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.moext.flowservice.config.ServiceConfig;
 import com.moext.flowservice.inteceptor.TokenCheckInterceptor;
+
 /**
  * 运行类
+ * 
  * @author PengPeng
  *
  */
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"com.moext.flowservice"})
+@ComponentScan(basePackages = { "com.moext.flowservice" })
 @Configuration
 @EnableWebMvc
-@MapperScan(basePackages= {"com.moext.flowservice.data.gen.dao"})
+@MapperScan(basePackages = { "com.moext.flowservice.data.gen.dao" })
 public class FlowServiceApp implements WebMvcConfigurer {
 
 	@Autowired
 	private ServiceConfig serviceConfig;
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		TokenCheckInterceptor tokenCheckInterceptor = new TokenCheckInterceptor(serviceConfig.getAccessToken());
 		registry.addInterceptor(tokenCheckInterceptor).addPathPatterns("/**");
 	}
-	
-	public static void main(String[] args){ 
+
+	public static void main(String[] args) {
 		SpringApplication.run(FlowServiceApp.class, args);
 	}
 }
-

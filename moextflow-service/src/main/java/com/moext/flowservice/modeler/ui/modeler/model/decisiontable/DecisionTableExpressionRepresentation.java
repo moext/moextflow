@@ -19,78 +19,78 @@ import java.util.List;
  */
 public class DecisionTableExpressionRepresentation {
 
-    public static final String VARIABLE_TYPE_VARIABLE = "variable";
+	public static final String VARIABLE_TYPE_VARIABLE = "variable";
 
-    protected String id;
-    protected String variableId;
-    protected String variableType;
-    protected String type;
-    protected String label;
-    protected List<String> entries;
-    protected boolean newVariable;
-    protected boolean complexExpression;
+	protected String id;
+	protected String variableId;
+	protected String variableType;
+	protected String type;
+	protected String label;
+	protected List<String> entries;
+	protected boolean newVariable;
+	protected boolean complexExpression;
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getVariableId() {
-        return variableId;
-    }
+	public String getVariableId() {
+		return variableId;
+	}
 
-    public void setVariableId(String variableId) {
-        this.variableId = variableId;
-    }
+	public void setVariableId(String variableId) {
+		this.variableId = variableId;
+	}
 
-    public String getVariableType() {
-        return variableType;
-    }
+	public String getVariableType() {
+		return variableType;
+	}
 
-    public void setVariableType(String variableType) {
-        this.variableType = variableType;
-    }
+	public void setVariableType(String variableType) {
+		this.variableType = variableType;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
-    public List<String> getEntries() {
-        return entries;
-    }
+	public List<String> getEntries() {
+		return entries;
+	}
 
-    public void setEntries(List<String> entries) {
-        this.entries = entries;
-    }
+	public void setEntries(List<String> entries) {
+		this.entries = entries;
+	}
 
-    public boolean isNewVariable() {
-        return newVariable;
-    }
+	public boolean isNewVariable() {
+		return newVariable;
+	}
 
-    public void setNewVariable(boolean newVariable) {
-        this.newVariable = newVariable;
-    }
+	public void setNewVariable(boolean newVariable) {
+		this.newVariable = newVariable;
+	}
 
-    public boolean isComplexExpression() {
-        return complexExpression;
-    }
+	public boolean isComplexExpression() {
+		return complexExpression;
+	}
 
-    public void setComplexExpression(boolean complexExpression) {
-        this.complexExpression = complexExpression;
-    }
+	public void setComplexExpression(boolean complexExpression) {
+		this.complexExpression = complexExpression;
+	}
 }

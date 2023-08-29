@@ -5,6 +5,7 @@ import java.util.Date;
 
 /**
  * 流程模型
+ * 
  * @author PengPeng
  *
  */
@@ -32,7 +33,7 @@ public class FlowModel implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

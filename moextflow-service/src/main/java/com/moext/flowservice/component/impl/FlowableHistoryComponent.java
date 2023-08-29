@@ -16,18 +16,19 @@ public class FlowableHistoryComponent implements HistoryComponent {
 
 	@Autowired
 	private HistoryService historyService;
-	
+
 	@Override
 	public String getHistoryAssignee(String procInsId, String taskDefKey) {
-		List<HistoricTaskInstance> historicTaskInstanceList = historyService.createHistoricTaskInstanceQuery().processInstanceId(procInsId).taskDefinitionKey(taskDefKey).orderByTaskId().desc().list();
-    	if(CollectionUtils.isNotEmpty(historicTaskInstanceList)) {
-    		for(HistoricTaskInstance historicTaskInstance : historicTaskInstanceList) {
-    			String assignee = historicTaskInstance.getAssignee();
-    			if(StringUtils.isNotBlank(assignee)) {
-    				return assignee;
-    			}
-    		}
-    	}
-    	return null;
+		List<HistoricTaskInstance> historicTaskInstanceList = historyService.createHistoricTaskInstanceQuery()
+				.processInstanceId(procInsId).taskDefinitionKey(taskDefKey).orderByTaskId().desc().list();
+		if (CollectionUtils.isNotEmpty(historicTaskInstanceList)) {
+			for (HistoricTaskInstance historicTaskInstance : historicTaskInstanceList) {
+				String assignee = historicTaskInstance.getAssignee();
+				if (StringUtils.isNotBlank(assignee)) {
+					return assignee;
+				}
+			}
+		}
+		return null;
 	}
 }

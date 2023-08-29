@@ -31,47 +31,47 @@ import org.flowable.image.impl.DefaultProcessDiagramGenerator;
 
 public class ImageGenerator {
 
-    public static BufferedImage createImage(BpmnModel bpmnModel) {
-        ProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator();
-        BufferedImage diagramImage = diagramGenerator.generatePngImage(bpmnModel, 1.0);
-        return diagramImage;
-    }
+	public static BufferedImage createImage(BpmnModel bpmnModel) {
+		ProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator();
+		BufferedImage diagramImage = diagramGenerator.generatePngImage(bpmnModel, 1.0);
+		return diagramImage;
+	}
 
-    public static BufferedImage createImage(BpmnModel bpmnModel, double scaleFactor) {
-        ProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator(scaleFactor);
-        BufferedImage diagramImage = diagramGenerator.generatePngImage(bpmnModel, scaleFactor);
-        return diagramImage;
-    }
-    
-    public static BufferedImage createCmmnImage(CmmnModel cmmnModel, double scaleFactor) {
-        CaseDiagramGenerator diagramGenerator = new DefaultCaseDiagramGenerator(scaleFactor);
-        BufferedImage diagramImage = diagramGenerator.generatePngImage(cmmnModel, scaleFactor);
-        return diagramImage;
-    }
+	public static BufferedImage createImage(BpmnModel bpmnModel, double scaleFactor) {
+		ProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator(scaleFactor);
+		BufferedImage diagramImage = diagramGenerator.generatePngImage(bpmnModel, scaleFactor);
+		return diagramImage;
+	}
 
-    public static BufferedImage createDmnImage(DmnDefinition dmnDefinition, double scaleFactor) {
-        DecisionRequirementsDiagramGenerator diagramGenerator = new DefaultDecisionRequirementsDiagramGenerator(scaleFactor);
-        BufferedImage diagramImage = diagramGenerator.generatePngImage(dmnDefinition, scaleFactor);
-        return diagramImage;
-    }
+	public static BufferedImage createCmmnImage(CmmnModel cmmnModel, double scaleFactor) {
+		CaseDiagramGenerator diagramGenerator = new DefaultCaseDiagramGenerator(scaleFactor);
+		BufferedImage diagramImage = diagramGenerator.generatePngImage(cmmnModel, scaleFactor);
+		return diagramImage;
+	}
 
+	public static BufferedImage createDmnImage(DmnDefinition dmnDefinition, double scaleFactor) {
+		DecisionRequirementsDiagramGenerator diagramGenerator = new DefaultDecisionRequirementsDiagramGenerator(
+				scaleFactor);
+		BufferedImage diagramImage = diagramGenerator.generatePngImage(dmnDefinition, scaleFactor);
+		return diagramImage;
+	}
 
-    public static byte[] createByteArrayForImage(BufferedImage image, String imageType) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(image, imageType, out);
+	public static byte[] createByteArrayForImage(BufferedImage image, String imageType) {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(image, imageType, out);
 
-        } catch (IOException e) {
-            throw new FlowableImageException("Error while generating byte array for process image", e);
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException ignore) {
-                // Exception is silently ignored
-            }
-        }
-        return out.toByteArray();
-    }
+		} catch (IOException e) {
+			throw new FlowableImageException("Error while generating byte array for process image", e);
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException ignore) {
+				// Exception is silently ignored
+			}
+		}
+		return out.toByteArray();
+	}
 }

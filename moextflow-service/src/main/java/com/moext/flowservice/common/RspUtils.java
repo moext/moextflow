@@ -11,16 +11,19 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * 响应对象工具类
+ * 
  * @author PengPeng
  */
 public class RspUtils {
-	
+
 	public static <T> BaseResponse<T> success(T data) {
-		return new BaseResponse.Builder<T>(ReturnCodeConstant.NORMAL_SUCCESS).setData(data).setMessage("success").build();
+		return new BaseResponse.Builder<T>(ReturnCodeConstant.NORMAL_SUCCESS).setData(data).setMessage("success")
+				.build();
 	}
 
 	public static <T> BaseResponse<T> success() {
-		return new BaseResponse.Builder<T>(ReturnCodeConstant.NORMAL_SUCCESS).setData(null).setMessage("success").build();
+		return new BaseResponse.Builder<T>(ReturnCodeConstant.NORMAL_SUCCESS).setData(null).setMessage("success")
+				.build();
 	}
 
 	public static <T> BaseResponse<T> error(String msg) {
@@ -48,12 +51,12 @@ public class RspUtils {
 		json.put(WebConstant.MESSAGE, "need login");
 		return json.toJSONString();
 	}
-	
+
 	public static <T> String validate(T bean, Class<T> clazz) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<T>> constraintViolations = validator.validate(bean);
-		if(constraintViolations.size() != 0) {
+		if (constraintViolations.size() != 0) {
 			StringBuffer error = new StringBuffer();
 			for (ConstraintViolation<T> constraintViolation : constraintViolations) {
 				error.append(constraintViolation.getMessage());

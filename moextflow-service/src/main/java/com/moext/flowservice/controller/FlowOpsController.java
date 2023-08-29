@@ -27,6 +27,7 @@ import com.moext.flowservice.service.FlowOpsService;
 
 /**
  * 流程干预接口
+ * 
  * @author PengPeng
  */
 @RequestMapping("/ops")
@@ -35,87 +36,96 @@ public class FlowOpsController {
 
 	@Autowired
 	private FlowOpsService flowOpsService;
-	
+
 	/**
 	 * 流程干预分页查询列表
+	 * 
 	 * @param request
 	 * @param actProcessPageReq
 	 * @return
 	 */
-	@RequestMapping(value="/listOpsFlowPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/listOpsFlowPage", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse<PageResponse<TaskManageModel>> listOpsFlowPage(HttpServletRequest request, @RequestBody ActProcessPageReq actProcessPageReq) {
+	public BaseResponse<PageResponse<TaskManageModel>> listOpsFlowPage(HttpServletRequest request,
+			@RequestBody ActProcessPageReq actProcessPageReq) {
 		String validateMsg = RspUtils.validate(actProcessPageReq, ActProcessPageReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		PageResponse<TaskManageModel> response = flowOpsService.listOpsFlowPage(actProcessPageReq);
 		return RspUtils.success(response);
 	}
-	
+
 	/**
 	 * 可跳转节点列表查询
+	 * 
 	 * @param request
 	 * @param procInsId
 	 * @return
 	 */
 	@GetMapping("/listJumpNode/{procInsId}")
-	public List<TaskNodeModel> listActivityNode(HttpServletRequest request, @PathVariable("procInsId") String procInsId) {
+	public List<TaskNodeModel> listActivityNode(HttpServletRequest request,
+			@PathVariable("procInsId") String procInsId) {
 		return flowOpsService.listJumpNode(procInsId);
 	}
-	
+
 	/**
 	 * 跳转到指定节点
+	 * 
 	 * @param request
 	 * @param jumpNodeReq
 	 * @return
 	 */
-	@RequestMapping(value="/jumpNode", method = RequestMethod.POST)
+	@RequestMapping(value = "/jumpNode", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse<Boolean> jumpNode(HttpServletRequest request, @RequestBody JumpNodeReq jumpNodeReq) {
 		String validateMsg = RspUtils.validate(jumpNodeReq, JumpNodeReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		return RspUtils.success(flowOpsService.jumpNode(jumpNodeReq));
 	}
-	
+
 	/**
 	 * 指定任务处理人
+	 * 
 	 * @param request
 	 * @param changeTaskAssigneeReq
 	 * @return
 	 */
-	@RequestMapping(value="/changeTaskAssignee", method = RequestMethod.POST)
+	@RequestMapping(value = "/changeTaskAssignee", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse<Boolean> changeTaskAssignee(HttpServletRequest request, @RequestBody ChangeTaskAssigneeReq changeTaskAssigneeReq) {
+	public BaseResponse<Boolean> changeTaskAssignee(HttpServletRequest request,
+			@RequestBody ChangeTaskAssigneeReq changeTaskAssigneeReq) {
 		String validateMsg = RspUtils.validate(changeTaskAssigneeReq, ChangeTaskAssigneeReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		return RspUtils.success(flowOpsService.changeTaskAssignee(changeTaskAssigneeReq));
 	}
-	
-    /**
-     * 将部署的流程转换为模型
-     * @param procDefId
-     * @param redirectAttributes
-     * @return
-     * @throws UnsupportedEncodingException
-     * @throws XMLStreamException
-     */
-    @RequestMapping(value = "convertToModel", method = RequestMethod.POST)
+
+	/**
+	 * 将部署的流程转换为模型
+	 * 
+	 * @param procDefId
+	 * @param redirectAttributes
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws XMLStreamException
+	 */
+	@RequestMapping(value = "convertToModel", method = RequestMethod.POST)
 	@ResponseBody
-    public BaseResponse<Boolean> convertToModel(HttpServletRequest request, @RequestBody ConvertToModelReq convertToModelReq) throws Exception {
-    	String validateMsg = RspUtils.validate(convertToModelReq, ConvertToModelReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+	public BaseResponse<Boolean> convertToModel(HttpServletRequest request,
+			@RequestBody ConvertToModelReq convertToModelReq) throws Exception {
+		String validateMsg = RspUtils.validate(convertToModelReq, ConvertToModelReq.class);
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
-    	flowOpsService.toModel(convertToModelReq.getProcDefId());
+
+		flowOpsService.toModel(convertToModelReq.getProcDefId());
 		return RspUtils.success(true);
-    }
+	}
 }

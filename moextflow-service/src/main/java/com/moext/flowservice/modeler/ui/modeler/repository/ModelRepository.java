@@ -18,20 +18,20 @@ import com.moext.flowservice.modeler.ui.modeler.domain.Model;
 
 public interface ModelRepository {
 
-    void save(Model model);
+	void save(Model model);
 
-    void delete(Model model);
+	void delete(Model model);
 
-    Model get(String id);
+	Model get(String id);
 
-    List<Model> findByModelType(Integer modelType, String sort);
+	List<Model> findByModelType(Integer modelType, String sort);
 
-    List<Model> findByModelTypeAndFilter(Integer modelType, String filter, String sort);
+	List<Model> findByModelTypeAndFilter(Integer modelType, String filter, String sort);
 
-    List<Model> findByKeyAndType(String key, Integer modelType);
+	List<Model> findByKeyAndType(String key, Integer modelType);
 
-    List<Model> findByParentModelId(String parentModelId);
+	List<Model> findByParentModelId(String parentModelId);
 
-    Long countByModelTypeAndCreatedBy(int modelType, String createdBy);
+	Long countByModelTypeAndCreatedBy(int modelType, String createdBy);
 
 }

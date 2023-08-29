@@ -48,235 +48,242 @@ import com.moext.flowservice.modeler.ui.modeler.serviceapi.ModelService;
 public class ApiModelResource {
 
 	private static final String currentUserId = "CurrentUserId";
-	
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApiModelResource.class);
 
-    private static final String RESOLVE_ACTION_OVERWRITE = "overwrite";
-    private static final String RESOLVE_ACTION_SAVE_AS = "saveAs";
-    private static final String RESOLVE_ACTION_NEW_VERSION = "newVersion";
+	private static final Logger LOGGER = LoggerFactory.getLogger(ApiModelResource.class);
 
-    @Autowired
-    protected ModelService modelService;
+	private static final String RESOLVE_ACTION_OVERWRITE = "overwrite";
+	private static final String RESOLVE_ACTION_SAVE_AS = "saveAs";
+	private static final String RESOLVE_ACTION_NEW_VERSION = "newVersion";
 
-    @Autowired
-    protected ModelRepository modelRepository;
+	@Autowired
+	protected ModelService modelService;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
+	@Autowired
+	protected ModelRepository modelRepository;
 
-    protected BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
+	@Autowired
+	protected ObjectMapper objectMapper;
 
-    protected BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
+	protected BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
 
-    /**
-     * GET /models/{modelId} -> Get process model
-     */
-    @GetMapping(value = "/models/{modelId}", produces = "application/json")
-    public ModelRepresentation getModel(@PathVariable String modelId) {
-        return modelService.getModelRepresentation(modelId);
-    }
+	protected BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
 
-    /**
-     * GET /models/{modelId}/thumbnail -> Get process model thumbnail
-     */
-    @GetMapping(value = "/models/{modelId}/thumbnail", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] getModelThumbnail(@PathVariable String modelId) {
-        Model model = modelService.getModel(modelId);
-        return model.getThumbnail();
-    }
+	/**
+	 * GET /models/{modelId} -> Get process model
+	 */
+	@GetMapping(value = "/models/{modelId}", produces = "application/json")
+	public ModelRepresentation getModel(@PathVariable String modelId) {
+		return modelService.getModelRepresentation(modelId);
+	}
 
-    /**
-     * PUT /rest/models/{modelId} -> update process model properties
-     */
-    @PutMapping(value = "/models/{modelId}")
-    public ModelRepresentation updateModel(@PathVariable String modelId, @RequestBody ModelRepresentation updatedModel) {
-        // Get model, write-permission required if not a favorite-update
-        Model model = modelService.getModel(modelId);
+	/**
+	 * GET /models/{modelId}/thumbnail -> Get process model thumbnail
+	 */
+	@GetMapping(value = "/models/{modelId}/thumbnail", produces = MediaType.IMAGE_PNG_VALUE)
+	public byte[] getModelThumbnail(@PathVariable String modelId) {
+		Model model = modelService.getModel(modelId);
+		return model.getThumbnail();
+	}
 
-        ModelKeyRepresentation modelKeyInfo = modelService.validateModelKey(model, model.getModelType(), updatedModel.getKey());
-        if (modelKeyInfo.isKeyAlreadyExists()) {
-            throw new BadRequestException("Model with provided key already exists " + updatedModel.getKey());
-        }
+	/**
+	 * PUT /rest/models/{modelId} -> update process model properties
+	 */
+	@PutMapping(value = "/models/{modelId}")
+	public ModelRepresentation updateModel(@PathVariable String modelId,
+			@RequestBody ModelRepresentation updatedModel) {
+		// Get model, write-permission required if not a favorite-update
+		Model model = modelService.getModel(modelId);
 
-        try {
-            updatedModel.updateModel(model);
-            modelRepository.save(model);
+		ModelKeyRepresentation modelKeyInfo = modelService.validateModelKey(model, model.getModelType(),
+				updatedModel.getKey());
+		if (modelKeyInfo.isKeyAlreadyExists()) {
+			throw new BadRequestException("Model with provided key already exists " + updatedModel.getKey());
+		}
 
-            ModelRepresentation result = new ModelRepresentation(model);
-            return result;
+		try {
+			updatedModel.updateModel(model);
+			modelRepository.save(model);
 
-        } catch (Exception e) {
-            throw new BadRequestException("Model cannot be updated: " + modelId);
-        }
-    }
+			ModelRepresentation result = new ModelRepresentation(model);
+			return result;
 
-    /**
-     * DELETE /models/{modelId} -> delete process model or, as a non-owner, remove the share info link for that user specifically
-     */
-    @ResponseStatus(value = HttpStatus.OK)
-    @DeleteMapping(value = "/models/{modelId}")
-    public void deleteModel(@PathVariable String modelId) {
+		} catch (Exception e) {
+			throw new BadRequestException("Model cannot be updated: " + modelId);
+		}
+	}
 
-        // Get model to check if it exists, read-permission required for delete
-        Model model = modelService.getModel(modelId);
+	/**
+	 * DELETE /models/{modelId} -> delete process model or, as a non-owner, remove
+	 * the share info link for that user specifically
+	 */
+	@ResponseStatus(value = HttpStatus.OK)
+	@DeleteMapping(value = "/models/{modelId}")
+	public void deleteModel(@PathVariable String modelId) {
 
-        try {
-            modelService.deleteModel(model.getId());
+		// Get model to check if it exists, read-permission required for delete
+		Model model = modelService.getModel(modelId);
 
-        } catch (Exception e) {
-            LOGGER.error("Error while deleting: ", e);
-            throw new BadRequestException("Model cannot be deleted: " + modelId);
-        }
-    }
+		try {
+			modelService.deleteModel(model.getId());
 
-    /**
-     * GET /models/{modelId}/editor/json -> get the JSON model
-     */
-    @GetMapping(value = "/models/{modelId}/editor/json", produces = "application/json")
-    public ObjectNode getModelJSON(@PathVariable String modelId) {
-        Model model = modelService.getModel(modelId);
-        ObjectNode modelNode = objectMapper.createObjectNode();
-        modelNode.put("modelId", model.getId());
-        modelNode.put("name", model.getName());
-        modelNode.put("key", model.getKey());
-        modelNode.put("description", model.getDescription());
-        modelNode.putPOJO("lastUpdated", model.getLastUpdated());
-        modelNode.put("lastUpdatedBy", model.getLastUpdatedBy());
-        if (StringUtils.isNotEmpty(model.getModelEditorJson())) {
-            try {
-                ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(model.getModelEditorJson());
-                editorJsonNode.put("modelType", "model");
-                modelNode.set("model", editorJsonNode);
-            } catch (Exception e) {
-                LOGGER.error("Error reading editor json {}", modelId, e);
-                throw new InternalServerErrorException("Error reading editor json " + modelId);
-            }
+		} catch (Exception e) {
+			LOGGER.error("Error while deleting: ", e);
+			throw new BadRequestException("Model cannot be deleted: " + modelId);
+		}
+	}
 
-        } else {
-            ObjectNode editorJsonNode = objectMapper.createObjectNode();
-            editorJsonNode.put("id", "canvas");
-            editorJsonNode.put("resourceId", "canvas");
-            ObjectNode stencilSetNode = objectMapper.createObjectNode();
-            stencilSetNode.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
-            editorJsonNode.put("modelType", "model");
-            modelNode.set("model", editorJsonNode);
-        }
-        return modelNode;
-    }
+	/**
+	 * GET /models/{modelId}/editor/json -> get the JSON model
+	 */
+	@GetMapping(value = "/models/{modelId}/editor/json", produces = "application/json")
+	public ObjectNode getModelJSON(@PathVariable String modelId) {
+		Model model = modelService.getModel(modelId);
+		ObjectNode modelNode = objectMapper.createObjectNode();
+		modelNode.put("modelId", model.getId());
+		modelNode.put("name", model.getName());
+		modelNode.put("key", model.getKey());
+		modelNode.put("description", model.getDescription());
+		modelNode.putPOJO("lastUpdated", model.getLastUpdated());
+		modelNode.put("lastUpdatedBy", model.getLastUpdatedBy());
+		if (StringUtils.isNotEmpty(model.getModelEditorJson())) {
+			try {
+				ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(model.getModelEditorJson());
+				editorJsonNode.put("modelType", "model");
+				modelNode.set("model", editorJsonNode);
+			} catch (Exception e) {
+				LOGGER.error("Error reading editor json {}", modelId, e);
+				throw new InternalServerErrorException("Error reading editor json " + modelId);
+			}
 
-    /**
-     * POST /models/{modelId}/editor/json -> save the JSON model
-     */
-    @PostMapping(value = "/models/{modelId}/editor/json")
-    public ModelRepresentation saveModel(@PathVariable String modelId, @RequestBody MultiValueMap<String, String> values) {
+		} else {
+			ObjectNode editorJsonNode = objectMapper.createObjectNode();
+			editorJsonNode.put("id", "canvas");
+			editorJsonNode.put("resourceId", "canvas");
+			ObjectNode stencilSetNode = objectMapper.createObjectNode();
+			stencilSetNode.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
+			editorJsonNode.put("modelType", "model");
+			modelNode.set("model", editorJsonNode);
+		}
+		return modelNode;
+	}
 
-        // Validation: see if there was another update in the meantime
-        long lastUpdated = -1L;
-        String lastUpdatedString = values.getFirst("lastUpdated");
-        if (lastUpdatedString == null) {
-            throw new BadRequestException("Missing lastUpdated date");
-        }
-        try {
-            Date readValue = objectMapper.getDeserializationConfig().getDateFormat().parse(lastUpdatedString);
-            lastUpdated = readValue.getTime();
-        } catch (ParseException e) {
-            throw new BadRequestException("Invalid lastUpdated date: '" + lastUpdatedString + "'");
-        }
+	/**
+	 * POST /models/{modelId}/editor/json -> save the JSON model
+	 */
+	@PostMapping(value = "/models/{modelId}/editor/json")
+	public ModelRepresentation saveModel(@PathVariable String modelId,
+			@RequestBody MultiValueMap<String, String> values) {
 
-        Model model = modelService.getModel(modelId);
-        boolean currentUserIsOwner = model.getLastUpdatedBy().equals(currentUserId);
-        String resolveAction = values.getFirst("conflictResolveAction");
+		// Validation: see if there was another update in the meantime
+		long lastUpdated = -1L;
+		String lastUpdatedString = values.getFirst("lastUpdated");
+		if (lastUpdatedString == null) {
+			throw new BadRequestException("Missing lastUpdated date");
+		}
+		try {
+			Date readValue = objectMapper.getDeserializationConfig().getDateFormat().parse(lastUpdatedString);
+			lastUpdated = readValue.getTime();
+		} catch (ParseException e) {
+			throw new BadRequestException("Invalid lastUpdated date: '" + lastUpdatedString + "'");
+		}
 
-        // If timestamps differ, there is a conflict or a conflict has been resolved by the user
-        if (model.getLastUpdated().getTime() != lastUpdated) {
+		Model model = modelService.getModel(modelId);
+		boolean currentUserIsOwner = model.getLastUpdatedBy().equals(currentUserId);
+		String resolveAction = values.getFirst("conflictResolveAction");
 
-            if (RESOLVE_ACTION_SAVE_AS.equals(resolveAction)) {
+		// If timestamps differ, there is a conflict or a conflict has been resolved by
+		// the user
+		if (model.getLastUpdated().getTime() != lastUpdated) {
 
-                String saveAs = values.getFirst("saveAs");
-                String json = values.getFirst("json_xml");
-                return createNewModel(saveAs, model.getDescription(), model.getModelType(), json);
+			if (RESOLVE_ACTION_SAVE_AS.equals(resolveAction)) {
 
-            } else if (RESOLVE_ACTION_OVERWRITE.equals(resolveAction)) {
-                return updateModel(model, values, false);
-            } else if (RESOLVE_ACTION_NEW_VERSION.equals(resolveAction)) {
-                return updateModel(model, values, true);
-            } else {
+				String saveAs = values.getFirst("saveAs");
+				String json = values.getFirst("json_xml");
+				return createNewModel(saveAs, model.getDescription(), model.getModelType(), json);
 
-                // Exception case: the user is the owner and selected to create a new version
-                String isNewVersionString = values.getFirst("newversion");
-                if (currentUserIsOwner && "true".equals(isNewVersionString)) {
-                    return updateModel(model, values, true);
-                } else {
-                    // Tried everything, this is really a conflict, return 409
-                    ConflictingRequestException exception = new ConflictingRequestException("Process model was updated in the meantime");
-                    exception.addCustomData("userFullName", model.getLastUpdatedBy());
-                    exception.addCustomData("newVersionAllowed", currentUserIsOwner);
-                    throw exception;
-                }
-            }
+			} else if (RESOLVE_ACTION_OVERWRITE.equals(resolveAction)) {
+				return updateModel(model, values, false);
+			} else if (RESOLVE_ACTION_NEW_VERSION.equals(resolveAction)) {
+				return updateModel(model, values, true);
+			} else {
 
-        } else {
+				// Exception case: the user is the owner and selected to create a new version
+				String isNewVersionString = values.getFirst("newversion");
+				if (currentUserIsOwner && "true".equals(isNewVersionString)) {
+					return updateModel(model, values, true);
+				} else {
+					// Tried everything, this is really a conflict, return 409
+					ConflictingRequestException exception = new ConflictingRequestException(
+							"Process model was updated in the meantime");
+					exception.addCustomData("userFullName", model.getLastUpdatedBy());
+					exception.addCustomData("newVersionAllowed", currentUserIsOwner);
+					throw exception;
+				}
+			}
 
-            // Actual, regular, update
-            return updateModel(model, values, false);
+		} else {
 
-        }
-    }
+			// Actual, regular, update
+			return updateModel(model, values, false);
 
-    protected ModelRepresentation updateModel(Model model, MultiValueMap<String, String> values, boolean forceNewVersion) {
+		}
+	}
 
-        String name = values.getFirst("name");
-        String key = values.getFirst("key");
-        String description = values.getFirst("description");
-        String isNewVersionString = values.getFirst("newversion");
-        String newVersionComment = null;
+	protected ModelRepresentation updateModel(Model model, MultiValueMap<String, String> values,
+			boolean forceNewVersion) {
 
-        ModelKeyRepresentation modelKeyInfo = modelService.validateModelKey(model, model.getModelType(), key);
-        if (modelKeyInfo.isKeyAlreadyExists()) {
-            throw new BadRequestException("Model with provided key already exists " + key);
-        }
+		String name = values.getFirst("name");
+		String key = values.getFirst("key");
+		String description = values.getFirst("description");
+		String isNewVersionString = values.getFirst("newversion");
+		String newVersionComment = null;
 
-        boolean newVersion = false;
-        if (forceNewVersion) {
-            newVersion = true;
-            newVersionComment = values.getFirst("comment");
-        } else {
-            if (isNewVersionString != null) {
-                newVersion = "true".equals(isNewVersionString);
-                newVersionComment = values.getFirst("comment");
-            }
-        }
+		ModelKeyRepresentation modelKeyInfo = modelService.validateModelKey(model, model.getModelType(), key);
+		if (modelKeyInfo.isKeyAlreadyExists()) {
+			throw new BadRequestException("Model with provided key already exists " + key);
+		}
 
-        String json = values.getFirst("json_xml");
+		boolean newVersion = false;
+		if (forceNewVersion) {
+			newVersion = true;
+			newVersionComment = values.getFirst("comment");
+		} else {
+			if (isNewVersionString != null) {
+				newVersion = "true".equals(isNewVersionString);
+				newVersionComment = values.getFirst("comment");
+			}
+		}
 
-        try {
-            model = modelService.saveModel(model.getId(), name, key, description, json, newVersion,
-                    newVersionComment, currentUserId);
-            return new ModelRepresentation(model);
+		String json = values.getFirst("json_xml");
 
-        } catch (Exception e) {
-            LOGGER.error("Error saving model {}", model.getId(), e);
-            throw new BadRequestException("Process model could not be saved " + model.getId());
-        }
-    }
+		try {
+			model = modelService.saveModel(model.getId(), name, key, description, json, newVersion, newVersionComment,
+					currentUserId);
+			return new ModelRepresentation(model);
 
-    protected ModelRepresentation createNewModel(String name, String description, Integer modelType, String editorJson) {
-        ModelRepresentation model = new ModelRepresentation();
-        model.setName(name);
-        model.setDescription(description);
-        model.setModelType(modelType);
-        Model newModel = modelService.createModel(model, editorJson, currentUserId);
-        return new ModelRepresentation(newModel);
-    }
-    
-    
-    @GetMapping(value = "/test")
-    public ModelRepresentation test() {
-        ModelRepresentation model = new ModelRepresentation();
-        model.setName("测试0407");
-        model.setDescription("测试0407CCC");
-        model.setModelType(6);
-        Model newModel = modelService.createModel(model, "{}", currentUserId);
-        return new ModelRepresentation(newModel);
-    }
+		} catch (Exception e) {
+			LOGGER.error("Error saving model {}", model.getId(), e);
+			throw new BadRequestException("Process model could not be saved " + model.getId());
+		}
+	}
+
+	protected ModelRepresentation createNewModel(String name, String description, Integer modelType,
+			String editorJson) {
+		ModelRepresentation model = new ModelRepresentation();
+		model.setName(name);
+		model.setDescription(description);
+		model.setModelType(modelType);
+		Model newModel = modelService.createModel(model, editorJson, currentUserId);
+		return new ModelRepresentation(newModel);
+	}
+
+	@GetMapping(value = "/test")
+	public ModelRepresentation test() {
+		ModelRepresentation model = new ModelRepresentation();
+		model.setName("测试0407");
+		model.setDescription("测试0407CCC");
+		model.setModelType(6);
+		Model newModel = modelService.createModel(model, "{}", currentUserId);
+		return new ModelRepresentation(newModel);
+	}
 }

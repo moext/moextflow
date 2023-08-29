@@ -48,8 +48,9 @@ import com.moext.flowservice.dto.req.FlowModelPageRequest;
 import com.moext.flowservice.flow.model.FlowModel;
 
 /**
- * 流程模型的Flowable实现
- * Flowable 6.4.1版后不用act_re_model表来保存流程模型文件,改为用act_de_model表来保存，但对应的RepositoryService操作的仍然是act_re_model表
+ * 流程模型的Flowable实现 Flowable
+ * 6.4.1版后不用act_re_model表来保存流程模型文件,改为用act_de_model表来保存，但对应的RepositoryService操作的仍然是act_re_model表
+ * 
  * @author PengPeng
  *
  */
@@ -58,10 +59,10 @@ import com.moext.flowservice.flow.model.FlowModel;
 public class FlowableProcessModelComponent implements ProcessModelComponent {
 
 	private static Logger logger = LoggerFactory.getLogger(FlowableProcessModelComponent.class);
-			
+
 	@Autowired
 	private RepositoryService repositoryService;
-	
+
 	@Override
 	public List<FlowModel> list(FlowModelPageRequest pageRequest) {
 		ModelQuery modelQuery = repositoryService.createModelQuery().latestVersion().orderByLastUpdateTime().desc();
@@ -94,13 +95,13 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 	public void saveOrUpdate(String name, String key, String description, String category)
 			throws UnsupportedEncodingException {
 		Model modelData = this.getModelByKey(key);
-		if(modelData == null) {
+		if (modelData == null) {
 			modelData = repositoryService.newModel();
 			modelData.setVersion(1);
-		}else {
+		} else {
 			modelData.setVersion(modelData.getVersion() + 1);
 		}
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		ObjectNode editorNode = objectMapper.createObjectNode();
 		editorNode.put("id", "canvas");
@@ -298,7 +299,7 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 	public void delete(String id) {
 		repositoryService.deleteModel(id);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean importListByModelFile(Part file) throws Exception {
@@ -347,8 +348,8 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 				.orderByProcessDefinitionKey().asc();
 		List<ProcessDefinition> processDefinitionList = processDefinitionQuery.list();
 		// 查询所有模型
-		List<Model> modelList = repositoryService.createModelQuery().latestVersion()
-				.orderByLastUpdateTime().desc().list();
+		List<Model> modelList = repositoryService.createModelQuery().latestVersion().orderByLastUpdateTime().desc()
+				.list();
 		if (modelList != null) {
 			for (Model model : modelList) {
 				Date modelLastUpdateTime = model.getLastUpdateTime();// 最后更新时间
@@ -373,7 +374,7 @@ public class FlowableProcessModelComponent implements ProcessModelComponent {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public Model getModel(String modelId) {
 		return repositoryService.getModel(modelId);

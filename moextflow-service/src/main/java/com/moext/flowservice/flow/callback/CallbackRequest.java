@@ -4,16 +4,17 @@ import org.flowable.common.engine.api.delegate.event.FlowableEntityEvent;
 
 /**
  * 回调请求
+ * 
  * @author PengPeng
  */
 public class CallbackRequest {
 
 	private String processInstanceId;
-	
+
 	private String formInstanceId;
-	
+
 	private String procDefKey;
-	
+
 	private FlowableEntityEvent activitiEntityEvent;
 
 	public String getProcessInstanceId() {

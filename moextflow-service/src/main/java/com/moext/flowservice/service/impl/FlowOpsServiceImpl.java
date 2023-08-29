@@ -19,19 +19,20 @@ import com.moext.flowservice.flow.model.TaskNodeModel;
 import com.moext.flowservice.service.FlowOpsService;
 
 @Service
-public class FlowOpsServiceImpl implements FlowOpsService{
+public class FlowOpsServiceImpl implements FlowOpsService {
 
 	@Autowired
 	private ProcessComponent processComponent;
-	
+
 	@Autowired
 	private FlowableTaskComponent taskComponent;
-	
+
 	@Override
 	public PageResponse<TaskManageModel> listOpsFlowPage(ActProcessPageReq actProcessPageReq) {
 		List<TaskManageModel> data = processComponent.listHistoryProcess(actProcessPageReq);
 		long total = processComponent.countHistoryProcess(actProcessPageReq);
-		return new PageResponse.Builder<TaskManageModel>().setPageRequest(actProcessPageReq).setContent(data).setTotalElements(total).build();
+		return new PageResponse.Builder<TaskManageModel>().setPageRequest(actProcessPageReq).setContent(data)
+				.setTotalElements(total).build();
 	}
 
 	@Override
@@ -43,12 +44,13 @@ public class FlowOpsServiceImpl implements FlowOpsService{
 	@Transactional
 	public Boolean jumpNode(JumpNodeReq jumpNodeReq) {
 		Task task = taskComponent.getCurrentTask(jumpNodeReq.getProcInsId());
-		if(task != null) {
-			if(!StringUtils.equals(task.getTaskDefinitionKey(), jumpNodeReq.getToTaskDefKey())) {//当前任务和待跳转任务不是同一个才执行跳转
-				processComponent.jumpToNode(jumpNodeReq.getProcInsId(), task.getTaskDefinitionKey(), jumpNodeReq.getToTaskDefKey());
+		if (task != null) {
+			if (!StringUtils.equals(task.getTaskDefinitionKey(), jumpNodeReq.getToTaskDefKey())) {// 当前任务和待跳转任务不是同一个才执行跳转
+				processComponent.jumpToNode(jumpNodeReq.getProcInsId(), task.getTaskDefinitionKey(),
+						jumpNodeReq.getToTaskDefKey());
 			}
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}

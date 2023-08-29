@@ -17,6 +17,7 @@ import com.moext.flowservice.flow.model.FlowModel;
 
 /**
  * 流程模型组件
+ * 
  * @author PengPeng
  *
  */
@@ -24,18 +25,20 @@ public interface ProcessModelComponent {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageRequest
 	 * @return
 	 */
 	public List<FlowModel> list(FlowModelPageRequest pageRequest);
-	
+
 	/**
 	 * 按条件统计数量
+	 * 
 	 * @param pageRequest
 	 * @return
 	 */
 	public long count(FlowModelPageRequest pageRequest);
-	
+
 	/**
 	 * 创建或更新模型
 	 * 
@@ -59,9 +62,8 @@ public interface ProcessModelComponent {
 	 * @throws UnsupportedEncodingException
 	 * @throws XMLStreamException
 	 */
-	public void importModel(Model data, InputStream bpmnStream)
-			throws UnsupportedEncodingException, XMLStreamException;
-	
+	public void importModel(Model data, InputStream bpmnStream) throws UnsupportedEncodingException, XMLStreamException;
+
 	/**
 	 * 导出Model文件
 	 * 
@@ -92,27 +94,30 @@ public interface ProcessModelComponent {
 	 * @param id
 	 */
 	public void delete(String id);
-	
+
 	/**
 	 * 按Model文件导入多个模型
+	 * 
 	 * @param file
 	 */
-	public boolean importListByModelFile(Part file) throws Exception ;
-	
+	public boolean importListByModelFile(Part file) throws Exception;
+
 	/**
 	 * 部署更新的流程
 	 */
 	public boolean deployUpdated();
-	
+
 	/**
 	 * 按modelId获取model
+	 * 
 	 * @param modelId
 	 * @return
 	 */
 	public Model getModel(String modelId);
-	
+
 	/**
 	 * 按key获取model
+	 * 
 	 * @param key
 	 * @return
 	 */

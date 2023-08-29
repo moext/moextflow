@@ -17,12 +17,12 @@ package com.moext.flowservice.modeler.ui.common.service.exception;
  */
 public class NotFoundException extends BaseModelerRestException {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public NotFoundException() {
-    }
+	public NotFoundException() {
+	}
 
-    public NotFoundException(String s) {
-        super(s);
-    }
+	public NotFoundException(String s) {
+		super(s);
+	}
 }

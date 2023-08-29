@@ -22,16 +22,16 @@ import com.moext.flowservice.modeler.ui.modeler.domain.ModelRelation;
  */
 public interface ModelRelationRepository {
 
-    void deleteModelRelationsForParentModel(String parentModelId);
+	void deleteModelRelationsForParentModel(String parentModelId);
 
-    void save(ModelRelation modelRelation);
+	void save(ModelRelation modelRelation);
 
-    void delete(ModelRelation modelRelation);
+	void delete(ModelRelation modelRelation);
 
-    List<ModelRelation> findByParentModelIdAndType(String parentModelId, String type);
+	List<ModelRelation> findByParentModelIdAndType(String parentModelId, String type);
 
-    List<ModelInformation> findModelInformationByParentModelId(String parentModelId);
+	List<ModelInformation> findModelInformationByParentModelId(String parentModelId);
 
-    List<ModelInformation> findModelInformationByChildModelId(String modelId);
+	List<ModelInformation> findModelInformationByChildModelId(String modelId);
 
 }

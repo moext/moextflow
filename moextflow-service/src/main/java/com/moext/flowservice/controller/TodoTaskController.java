@@ -21,6 +21,7 @@ import com.moext.flowservice.service.TodoTaskService;
 
 /**
  * 待办接口
+ * 
  * @author PengPeng
  */
 @RequestMapping("/todo")
@@ -32,70 +33,75 @@ public class TodoTaskController {
 
 	/**
 	 * 分页按条件查询待办
+	 * 
 	 * @param request
 	 * @param todoListPageReq
 	 * @return
 	 */
-	@RequestMapping(value="/listPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/listPage", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse<PageResponse<TodoTask>> listPage(HttpServletRequest request, @RequestBody TodoListPageReq todoListPageReq) {
+	public BaseResponse<PageResponse<TodoTask>> listPage(HttpServletRequest request,
+			@RequestBody TodoListPageReq todoListPageReq) {
 		String validateMsg = RspUtils.validate(todoListPageReq, TodoListPageReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		PageResponse<TodoTask> response = todoTaskService.listPage(todoListPageReq);
 		return RspUtils.success(response);
 	}
-	
+
 	/**
 	 * 按条件查询待办数量
+	 * 
 	 * @param request
 	 * @param todoListPageReq
 	 * @return
 	 */
-	@RequestMapping(value="/count", method = RequestMethod.POST)
+	@RequestMapping(value = "/count", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse<Long> count(HttpServletRequest request, @RequestBody TodoListCountReq todoListCountReq) {
 		String validateMsg = RspUtils.validate(todoListCountReq, TodoListCountReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		Long total = todoTaskService.count(todoListCountReq);
 		return RspUtils.success(total);
 	}
-	
+
 	/**
 	 * 待办任务详细信息
+	 * 
 	 * @param request
 	 * @param todoIdReq
 	 * @return
 	 */
-	@RequestMapping(value="/detail", method = RequestMethod.POST)
-    @ResponseBody
+	@RequestMapping(value = "/detail", method = RequestMethod.POST)
+	@ResponseBody
 	public BaseResponse<TodoTask> detail(HttpServletRequest request, @RequestBody TodoIdReq todoIdReq) {
 		String validateMsg = RspUtils.validate(todoIdReq, TodoIdReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		return RspUtils.success(todoTaskService.getByTodoId(todoIdReq.getTodoId()));
 	}
 
-    /**
-     * 删除待办任务（标记删除）
-     * @param request
-     * @param todoIdReq
-     */
-    @RequestMapping(value="/delete", method = RequestMethod.POST)
-    @ResponseBody
+	/**
+	 * 删除待办任务（标记删除）
+	 * 
+	 * @param request
+	 * @param todoIdReq
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
 	public BaseResponse<Boolean> delete(HttpServletRequest request, @RequestBody TodoIdReq todoIdReq) {
-    	String validateMsg = RspUtils.validate(todoIdReq, TodoIdReq.class);
-		if(StringUtils.isNotBlank(validateMsg)) {
+		String validateMsg = RspUtils.validate(todoIdReq, TodoIdReq.class);
+		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
-	    return RspUtils.success(todoTaskService.deleteByTodoId(todoIdReq.getTodoId()));
-	}	
+
+		return RspUtils.success(todoTaskService.deleteByTodoId(todoIdReq.getTodoId()));
+	}
 }

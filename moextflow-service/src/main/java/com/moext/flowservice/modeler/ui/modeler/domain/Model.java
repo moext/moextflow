@@ -14,18 +14,18 @@ package com.moext.flowservice.modeler.ui.modeler.domain;
 
 public class Model extends AbstractModel {
 
-    private byte[] thumbnail;
+	private byte[] thumbnail;
 
-    public Model() {
-        super();
-    }
+	public Model() {
+		super();
+	}
 
-    public byte[] getThumbnail() {
-        return thumbnail;
-    }
+	public byte[] getThumbnail() {
+		return thumbnail;
+	}
 
-    public void setThumbnail(byte[] thumbnail) {
-        this.thumbnail = thumbnail;
-    }
+	public void setThumbnail(byte[] thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 
 }

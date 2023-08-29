@@ -65,14 +65,15 @@ public class FlowModelAdminController {
 	 */
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse<Boolean> saveOrUpdate(HttpServletRequest request, @RequestBody ModelCreateReq modelCreateReq) throws Exception {
+	public BaseResponse<Boolean> saveOrUpdate(HttpServletRequest request, @RequestBody ModelCreateReq modelCreateReq)
+			throws Exception {
 		String validateMsg = RspUtils.validate(modelCreateReq, ModelCreateReq.class);
 		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
-		flowModelService.saveOrUpdate(modelCreateReq.getName(), modelCreateReq.getKey(), modelCreateReq.getDescription(),
-				modelCreateReq.getCategory());
+
+		flowModelService.saveOrUpdate(modelCreateReq.getName(), modelCreateReq.getKey(),
+				modelCreateReq.getDescription(), modelCreateReq.getCategory());
 		return RspUtils.success(true);
 	}
 
@@ -90,7 +91,7 @@ public class FlowModelAdminController {
 		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		flowModelService.deploy(idReq.getId());
 		return RspUtils.success(true);
 	}
@@ -124,7 +125,7 @@ public class FlowModelAdminController {
 		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		return RspUtils.success(flowModelService.updateCategory(updateModelReq.getId(), updateModelReq.getCategory()));
 	}
 
@@ -142,12 +143,13 @@ public class FlowModelAdminController {
 		if (StringUtils.isNotBlank(validateMsg)) {
 			return RspUtils.error(validateMsg);
 		}
-		
+
 		return RspUtils.success(flowModelService.delete(idReq.getId()));
 	}
 
 	/**
 	 * 一键部署所有更新的模型
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -159,6 +161,7 @@ public class FlowModelAdminController {
 
 	/**
 	 * 导入model文件
+	 * 
 	 * @param request
 	 * @return
 	 * @throws Exception
@@ -168,5 +171,5 @@ public class FlowModelAdminController {
 		Part file = request.getPart("file");
 		return RspUtils.success(flowModelService.importListByModelFile(file));
 	}
-	
+
 }

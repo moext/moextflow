@@ -22,14 +22,15 @@ import com.moext.flowservice.modeler.ui.modeler.model.AppDefinitionUpdateResultR
 
 public interface AppDefinitionService {
 
-    AppDefinitionRepresentation getAppDefinition(String appDefinitionId);
+	AppDefinitionRepresentation getAppDefinition(String appDefinitionId);
 
-    AppDefinitionRepresentation getAppDefinitionHistory(String modelId, String modelHistoryId);
+	AppDefinitionRepresentation getAppDefinitionHistory(String modelId, String modelHistoryId);
 
-    AppDefinitionUpdateResultRepresentation updateAppDefinition(String modelId, AppDefinitionSaveRepresentation updatedModel);
+	AppDefinitionUpdateResultRepresentation updateAppDefinition(String modelId,
+			AppDefinitionSaveRepresentation updatedModel);
 
-    List<AppDefinitionServiceRepresentation> getAppDefinitions();
+	List<AppDefinitionServiceRepresentation> getAppDefinitions();
 
-    List<AppDefinitionServiceRepresentation> getDeployableAppDefinitions(User user);
+	List<AppDefinitionServiceRepresentation> getDeployableAppDefinitions(User user);
 
 }

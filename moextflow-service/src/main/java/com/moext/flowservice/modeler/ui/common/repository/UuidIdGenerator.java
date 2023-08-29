@@ -20,7 +20,8 @@ import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
 
 /**
- * {@link IdGenerator} implementation based on the current time and the ethernet address of the machine it is running on.
+ * {@link IdGenerator} implementation based on the current time and the ethernet
+ * address of the machine it is running on.
  * 
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -28,25 +29,25 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator;
 @Component
 public class UuidIdGenerator {
 
-    // different ProcessEngines on the same classloader share one generator.
-    protected static volatile TimeBasedGenerator timeBasedGenerator;
+	// different ProcessEngines on the same classloader share one generator.
+	protected static volatile TimeBasedGenerator timeBasedGenerator;
 
-    public UuidIdGenerator() {
-        ensureGeneratorInitialized();
-    }
+	public UuidIdGenerator() {
+		ensureGeneratorInitialized();
+	}
 
-    protected void ensureGeneratorInitialized() {
-        if (timeBasedGenerator == null) {
-            synchronized (UuidIdGenerator.class) {
-                if (timeBasedGenerator == null) {
-                    timeBasedGenerator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
-                }
-            }
-        }
-    }
+	protected void ensureGeneratorInitialized() {
+		if (timeBasedGenerator == null) {
+			synchronized (UuidIdGenerator.class) {
+				if (timeBasedGenerator == null) {
+					timeBasedGenerator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
+				}
+			}
+		}
+	}
 
-    public String generateId() {
-        return timeBasedGenerator.generate().toString();
-    }
+	public String generateId() {
+		return timeBasedGenerator.generate().toString();
+	}
 
 }

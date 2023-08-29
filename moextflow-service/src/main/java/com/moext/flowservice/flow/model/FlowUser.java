@@ -10,21 +10,22 @@ import com.moext.flowservice.dto.req.UserReq;
 
 /**
  * 工作流用户
+ * 
  * @author PengPeng
  */
 public class FlowUser implements Serializable {
 
 	private static final long serialVersionUID = 2562087378597053182L;
 
-	//用户名
+	// 用户名
 	private String userCode;
-	
-	//姓名
+
+	// 姓名
 	private String displayName;
-	
-	//邮箱
+
+	// 邮箱
 	private String email;
-	
+
 	public String getUserCode() {
 		return userCode;
 	}
@@ -50,7 +51,7 @@ public class FlowUser implements Serializable {
 	}
 
 	public static FlowUser instanceOf(UserReq userReq) {
-		if(userReq == null) {
+		if (userReq == null) {
 			throw new IllegalArgumentException("参数userReq不能为空");
 		}
 		FlowUser item = new FlowUser();
@@ -59,9 +60,9 @@ public class FlowUser implements Serializable {
 		item.setEmail(userReq.getEmail());
 		return item;
 	}
-	
+
 	public static FlowUser instancesOf(User user) {
-		if(user == null) {
+		if (user == null) {
 			return null;
 		}
 		FlowUser item = new FlowUser();
@@ -70,14 +71,14 @@ public class FlowUser implements Serializable {
 		item.setEmail(user.getEmail());
 		return item;
 	}
-	
-	public static List<FlowUser> instancesOf(List<User> userList){
-		if(userList == null) {
+
+	public static List<FlowUser> instancesOf(List<User> userList) {
+		if (userList == null) {
 			return null;
 		}
 		List<FlowUser> itemList = new ArrayList<FlowUser>();
-		for(org.flowable.idm.api.User user : userList) {
-			if(user != null) {
+		for (org.flowable.idm.api.User user : userList) {
+			if (user != null) {
 				itemList.add(instancesOf(user));
 			}
 		}

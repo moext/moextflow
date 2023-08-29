@@ -14,12 +14,12 @@ package com.moext.flowservice.modeler.ui.modeler.repository;
 
 public interface ModelSort {
 
-    String NAME_ASC = "nameAsc";
+	String NAME_ASC = "nameAsc";
 
-    String NAME_DESC = "nameDesc";
+	String NAME_DESC = "nameDesc";
 
-    String MODIFIED_ASC = "modifiedAsc";
+	String MODIFIED_ASC = "modifiedAsc";
 
-    String MODIFIED_DESC = "modifiedDesc";
+	String MODIFIED_DESC = "modifiedDesc";
 
 }

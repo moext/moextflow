@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 应用配置
+ * 
  * @author PengPeng
  */
 @Component
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ServiceConfig {
 
 	private Boolean shutdownHook;
-	
+
 	private String accessToken;
 
 	public Boolean getShutdownHook() {

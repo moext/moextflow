@@ -68,26 +68,25 @@ public class FlowModelServiceImpl implements FlowModelService {
 	@Transactional
 	public boolean updateCategory(String id, String category) {
 		Model model = processModelComponent.getModel(id);
-		if(model != null) {
-			if(!StringUtils.equals(category, model.getCategory())) {
+		if (model != null) {
+			if (!StringUtils.equals(category, model.getCategory())) {
 				processModelComponent.updateCategory(id, category);
 			}
 			return true;
-		}else {
+		} else {
 			return false;
 		}
-		
-		
+
 	}
 
 	@Override
 	@Transactional
 	public boolean delete(String id) {
 		Model model = processModelComponent.getModel(id);
-		if(model != null) {
+		if (model != null) {
 			processModelComponent.delete(id);
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}

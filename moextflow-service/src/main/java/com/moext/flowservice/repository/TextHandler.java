@@ -12,28 +12,28 @@ public class TextHandler implements TypeHandler<Object> {
 
 	@Override
 	public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
-	    if(parameter == null){
-	    	ps.setString(i, null);
-	    	return;
-	    }	
-	    ps.setString(i, parameter.toString());
+		if (parameter == null) {
+			ps.setString(i, null);
+			return;
+		}
+		ps.setString(i, parameter.toString());
 	}
 
 	@Override
 	public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
 		String text = rs.getString(columnIndex);
-	    return text;
+		return text;
 	}
 
 	@Override
 	public Object getResult(CallableStatement cs, int columnIndex) throws SQLException {
-		 String text = cs.getString(columnIndex);
-		 return text;
+		String text = cs.getString(columnIndex);
+		return text;
 	}
 
 	@Override
 	public Object getResult(ResultSet rs, String columnName) throws SQLException {
 		String text = rs.getString(columnName);
-	    return text;
+		return text;
 	}
 }

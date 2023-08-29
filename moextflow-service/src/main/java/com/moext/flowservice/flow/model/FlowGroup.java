@@ -8,22 +8,23 @@ import com.moext.flowservice.dto.req.GroupReq;
 
 /**
  * 工作流用户分组
+ * 
  * @author PengPeng
  *
  */
 public class FlowGroup implements Serializable {
 
 	private static final long serialVersionUID = 7097955008411954017L;
-	
-	//角色标识
+
+	// 角色标识
 	private String id;
-	
-	//角色类型
+
+	// 角色类型
 	private String type;
-	
-	//角色名称
+
+	// 角色名称
 	private String name;
-	
+
 	public String getId() {
 		return id;
 	}
@@ -49,7 +50,7 @@ public class FlowGroup implements Serializable {
 	}
 
 	public static FlowGroup instancesOf(Group group) {
-		if(group == null) {
+		if (group == null) {
 			return null;
 		}
 		FlowGroup item = new FlowGroup();
@@ -58,9 +59,9 @@ public class FlowGroup implements Serializable {
 		item.setName(group.getName());
 		return item;
 	}
-	
+
 	public static FlowGroup instanceOf(GroupReq groupReq) {
-		if(groupReq == null) {
+		if (groupReq == null) {
 			throw new IllegalArgumentException("参数groupReq不能为空");
 		}
 		FlowGroup item = new FlowGroup();

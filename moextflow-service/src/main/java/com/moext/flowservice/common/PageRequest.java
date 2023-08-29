@@ -4,21 +4,22 @@ import org.apache.ibatis.session.RowBounds;
 
 /**
  * 分页请求
+ * 
  * @author PengPeng
  */
 public class PageRequest extends BaseRequest {
-	
+
 	private static final long serialVersionUID = 7414967733027868142L;
-	
-	//当前页：pageNum，从1开始
+
+	// 当前页：pageNum，从1开始
 	public int pageNum = 0;
-	
-	//每页行数：pageSize
+
+	// 每页行数：pageSize
 	public int pageSize = 10;
-	
-	public PageRequest(){
+
+	public PageRequest() {
 	}
-	
+
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -34,18 +35,18 @@ public class PageRequest extends BaseRequest {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	
-	public PageRequest(int pageNum, int pageSize){
+
+	public PageRequest(int pageNum, int pageSize) {
 		this.pageNum = pageNum;
 		this.pageSize = pageSize;
 	}
-	
+
 	public int getFirstIndex() {
 		return Math.max(0, (pageNum - 1) * pageSize);
 	}
-	
+
 	public RowBounds getRowBounds() {
-		int offset = (this.getPageNum()-1) * this.getPageSize();
+		int offset = (this.getPageNum() - 1) * this.getPageSize();
 		RowBounds rowBounds = new RowBounds(offset, this.getPageSize());
 		return rowBounds;
 	}
